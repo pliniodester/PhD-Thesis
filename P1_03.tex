@@ -1,0 +1,389 @@
+\chapterquote{%
+The epistemological value of probability theory is based on the fact that chance phenomena, considered collectively and on a grand scale, create non-random regularity.}%
+{\begin{tabular}{ l l }
+ -- Andrey Kolmogorov, &\textit{Limit Distributions for Sums of Independent } \\ 
+    &\textit{Random Variables} (1954)
+\end{tabular}}
+
+This chapter presents the definitions and results from stochastic geometry applied to wireless networks that we use throughout the manuscript.
+%
+This review of the theory is based on the well-celebrated books
+%
+\begin{itemize}
+    \item \textit{Stochastic Geometry and Wireless Networks} \cite{baccelli2010stochastic}.
+    \item \textit{Stochastic Geometry for Wireless Networks} \cite{haenggi2012stochastic}.
+\end{itemize}
+%
+Then, for further details and proofs, the reader can refer to them.
+
+\begin{note}
+    The reader that is not interested in mathematical details can skip to Chapter~\ref{cap:P2_00} and consult this chapter as needed.
+    %
+    Nevertheless, bear in mind the following intuitive definition: a point process is a collection of points randomly positioned in the $\R^d$.
+\end{note}
+\newpage
+
+% % % % % % % % % % % % % % % % % % 
+\section{Point Processes and Random Measures} \label{sec:P1_03_01}
+
+Let us start with the definition of a point process, which can be intuitively seen as a collection of points randomly positioned on a well-behaved space, e.g. the Euclidean space.
+%
+\begin{definition}[\textbf{Point process}]
+    Let $(\Omega,\cal F, \P)$ be a \textit{probability space}. Let $(S,d)$ be a locally compact metric space\footnote{In a locally compact metric space every point has a closed and bounded neighborhood. A metric space is defined in Definition~\ref{def:metric_space} and a neighborhood in Definition~\ref{def:neighborhood}} and the Borel $\sigma$-algebra of $S$ be denoted by $\cal{S}$. A point process $\Phi:\Omega\times \cal S\longrightarrow \N$ is a function that satisfies:
+    \setlist{nolistsep}
+    \begin{itemize}[noitemsep]
+        \item For every $\omega\in\Omega$, $\Phi(\omega,\cdot)$ is a locally finite measure\footnote{A locally finite measure is a measure for which every point of the measure space has a neighbourhood of finite measure.}.
+        \item For every $B\in\cal S$, $\Phi(\cdot,B)$ is a random variable over $\N$.
+    \end{itemize}
+    A function that satisfies the above properties is also called a \textit{random measure}.
+    
+    As usual, we omit the dependence of $\Phi$ on $\omega\in\Omega$.
+    %
+    % Whenever $d$ is omitted, we assume the euclidean distance.
+\end{definition}
+%
+From the above definition, we can say that $\Phi$ counts how many points are located in a given finite \textit{measurable} subset of $S$.
+%
+Then, the locally finite measure property is important to avoid accumulation points.
+
+
+We can use this mathematical object to model the position of transmitters and receivers in wireless networks.
+%
+This is an interesting approach because usually the positions of these entities are random.
+
+\begin{remark} \label{rem:PP_set_notation}
+    A convenient form of specifying a point process $\Phi$ on space $S$ is using the Dirac measure $\delta_x$ at $x$. For $A\in\cal S$, $\delta_x(A) = 1$, if $x\in A$ and $\delta_x(A) = 0$ if $x\notin A$.
+    %
+    Since a point process consist of a \textit{countable} set of points, these points can be ordered using $\N$ and the position of these points can be defined as the stochastic process $\bm{X} = \{X_k\}_{k\in\N}$ with state space $S$ and index space $\N$. Then, we can write that
+    \begin{align*}
+        \Phi = \sum_{k\in\N} \delta_{X_k}.
+    \end{align*}
+    To state this correspondence we use the notation $\Phi \stackrel{*}{=} \{X_k\}_{k\in\N}$.
+\end{remark}
+
+\begin{note} \label{note:pp_sp}
+    Now the reader might be wondering if a point process is a stochastic process (Definition~\ref{def:stoch_process}).
+    %
+    Using our definitions the answer is yes.
+    %
+    The point process $\Phi$ on $S$ can be seen as the stochastic process $\{\Phi(A)\}_{A\in\cal S}$ with index space $\cal S$ and state space $\N$, where $\cal S$ is the Borel $\sigma$-algebra of $S$.
+    %
+    Therefore, we can apply the results of stochastic processes in point processes as well.
+    %
+    Note, however, that it is not convenient to work with an index space for which its elements are sets.
+    %
+    % In fact, it is not clear in the literature whether a point process is a special case of a stochastic process.
+    % %
+    % However, using our definitions we can relate both concepts.
+    % %
+    % Let $\Phi$ be a point process on $S$ and $\bm{X} = \{X_0, X_1, \dots\}$ be a stochastic process with index space $\N$ and state space $S$. We define these objects such that
+    % \begin{align*}
+    %     \Phi(A) = \sum_{k\ge 0} \ind\{X_k\in A\} \qquad \forall A\in\cal S = \cal B(S),
+    % \end{align*}
+    % where $X_k$ represents the position of the $k$th point. We can do so because a point process has a countable number of points and we can map them into $\N$.
+\end{note}
+
+An important point process is the Poisson point process (PPP) because it is analytically tractable and it usually represents a lower bound on the performance of wireless networks. % The definition follows.
+%
+\begin{definition}[\textbf{Poisson point process}]
+    Let $\Lambda$ be a locally finite measure on $\R^d$.
+    %
+    The Poisson point process $\Phi$ of intensity measure $\Lambda$ is a point process on $\R^d$ that satisfies
+    \begin{align*}
+        \P\big(\Phi(A_1)=n_1,\Phi(A_2)=n_2,\dots,\Phi(A_k)=n_k\big) = \prod_{i=1}^k \left( \frac{\Lambda(A_i)^{n_i}}{n_i!} \,\euler^{-\Lambda(A_i)} \right),
+    \end{align*}
+    for every $k\in\N^*$ and all bounded, mutually disjoint sets $A_i\in\cal{B}(\R^d)$ for $i\in\{1,2,\dots,k\}$.
+    
+    If for every bounded $A\in\cal{B}(\R^d)$ we have that $\int_A \d\Lambda(x) = \int_A \lambda\,\d x$ for some constant $\lambda > 0$, then we call $\Phi$ a \textit{homogeneous} Poisson point process of density $\lambda$.
+\end{definition}
+
+In particular, we can show that for the PPP $\Phi$ of intensity measure $\Lambda$ on $\R^d$, the expected number of points within a set $A\in\cal{B}(\R^d)$ denoted by $\E[\Phi(A)]$ is simply given by $\Lambda(A)$.
+%
+In the case of the homogeneous PPP with density $\lambda$ we further have that $\E[\Phi(A)] = \lambda\,\mu(A)$, where $\mu$ is the Lebesgue measure\footnote{Indeed $\lambda$ is the Radon–Nikodym derivative of the measure $\Lambda$ with respect to the Lebesgue measure.}.
+
+\begin{example}
+    Let $\Phi$ be a homogeneous PPP on $\R$ with density $\lambda > 0$.
+    %
+    Let $a < b$.
+    %
+    Then, $\Phi([a,b])$ follows a Poisson distribution of parameter $\lambda\,(b-a)$, i.e., $\Phi([a,b]) \sim \mathscr{P}(\lambda\,(b-a))$,
+    \begin{align*}
+        \P(\Phi([a,b]) = n) = \frac{\lambda^n\,(b-a)^n}{n!}\,\euler^{-\lambda\,(b-a)}, \qquad n\in\N.
+    \end{align*}
+    
+    Actually, this property is much more general.
+    %
+    A point process $\Phi$ on $\R^d$ is a Poisson point process if and only if there exists a locally finite measure $\Lambda$ on $\R^d$ such that for every bounded set $A\in\cal B(\R^d)$, $\Phi(A)$ follows a Poisson distribution of parameter $\Lambda(A)$.
+\end{example}
+
+Analogously to the Laplace transform to characterize random variables, we have the Laplace functional to characterize point processes and it is defined as follows.
+\begin{definition}[\textbf{Laplace functional}]
+    The \textit{Laplace functional} of a point process $\Phi \stackrel{*}{=}\{X_k\}_{k\in\N}$ on $S$ is defined by
+    \begin{align*}
+        \mathscr{L}_\Phi(f) \triangleq \E\!\left[\exp\!\left( -\sum_{k\in\N} f(X_k) \right)\right] = \E\!\left[ \exp\!\left(-\int_S f(x)\,\d\Phi(x)\right) \right],
+    \end{align*}
+    where $f:S\longrightarrow\R$ is a non-negative \textit{measurable} function.
+\end{definition}
+
+Note that for each sample of the sample space, $\Phi$ is a well defined measure, then we can integrate with respect to the measure $\Phi(\omega, \cdot)$, for fixed $\omega\in\Omega$.
+
+For the case of a Poisson point process there is a more straightforward calculation.
+\begin{theorem}[\textbf{Campbell's theorem}] \label{th:campbell}
+    The Laplace functional of a PPP of intensity measure $\Lambda$ on $\R^d$ is
+    \begin{align*}
+        \mathscr{L}_\Phi(f) = \E\!\left[ \exp\!\left(-\int_{\R^d} \left(1-\euler^{-f(x)}\right)\,\d\Lambda(x)\right) \right],
+    \end{align*}
+    where $f:\R^d\longrightarrow\R$ is a non-negative \textit{measurable} function.
+\end{theorem}
+
+A useful concept that contributes to model heterogeneous networks, i.e., networks with different classes of users, is the superposition of point processes.
+%
+The definition follows.
+%
+\begin{definition}
+    The superposition of $n\in\N$ point processes $\Phi_1, \Phi_2, \dots, \Phi_n$ is defined as \[\Phi = \sum_{k=1}^n \Phi_k.\]
+\end{definition}
+
+Then, again, for the PPP case, we can show the following.
+\begin{theorem}
+    The superposition of $n\in\N$ independent Poisson point processes with intensities $\Lambda_1, \Lambda_2, \dots, \Lambda_n$ is a Poisson point process with intensity measure \[\Lambda = \sum_{k=1}^n \Lambda_k.\]
+    % if and only if $\Lambda$ is a locally finite measure.
+\end{theorem}
+
+A useful concept to model medium access control in wireless networks is the \textit{thinning} of a point process, which consists of randomly removing some points of the point process and can represent the inactive users in a wireless network. The formal definition follows.
+%
+\begin{definition}
+    The \textit{thinning} of a point process $\Phi \stackrel{*}{=} \{X_k\}_{k\in\N}$ on space $S$ with respect to the \textit{measurable} function $p:S\longrightarrow [0,1]$ is a point process given by
+    \begin{align*}
+        \Phi^{(p)} = \sum_{k\in\N} e_k\,\delta_{X_k},
+    \end{align*}
+    where $\{e_k\}_k$ are independent Bernoulli random variables with parameter $p(X_k)$. 
+\end{definition}
+%
+The above definition simply says that to obtain $\Phi^{(p)}$ we remove points from $\Phi$ with probability $1-p(x)$, where $x$ is the position of the corespondent point.
+%
+Usually, $p$ is a constant function.
+
+Once again, let us state a related result for the Poisson point process.
+\begin{theorem}
+    The \textit{thinning} of a PPP of intensity measure $\Lambda$ with the function $p$ is itself a PPP of intensity measure $p\Lambda$.
+\end{theorem}
+
+Another important tool we need to study wireless networks is to be able to condition on events. For example, calculate the probability of a successful transmission given that a receiver is located at the origin (i.e. one of the points of the point process being located at the origin).
+%
+The probability of such event is usually 0 and the basic definition of conditional probability cannot be applied. See Definition~\ref{def:cond_prob} and the discussion below it.
+
+Thus, using Definition~\ref{def:cond_prob_sig} is essential to not run into problems.
+%
+The theory of point process that deals with conditional probabilities is called Palm theory and it is quite intricate to include in this manuscript. However, we will provide a general idea.
+
+\begin{definition}
+    Let $\Phi$ be a point process on $S$.
+    %
+    Let $\Phi_x$ be the point process $\Phi$ conditioned to having a point on $x\in S$. Let $\Phi^!_x$ be $\Phi_x$ without the point on $x\in S$, i.e., $\Phi_x = \Phi^!_x + \delta_x$.
+    %
+    Then, we call $\Phi_x$ and $\Phi^!_x$ the \textit{Palm} and the \textit{reduced Palm version} of $\Phi$, respectively.
+\end{definition}
+
+% \begin{definition}
+%     Let $\Phi$ be a point process on $S$ and $\mathbb{M}$ be the set of all point measures on $S$.
+%     %
+%     The measure $P_x^!:\mathbb{M}\longrightarrow [0,1]$ is called the \textit{reduced Palm distribution} of $\Phi$ given a point at $x\in S$.
+% \end{definition}
+%
+% For example, the probability that the number of points inside region $A\in \cal S$ is equal to $n\in\N$ given that there is a point of the point process $\Phi$ at $x\in S$ is denoted by $P_x^!(\{
+% \Phi(A)=n\})$.
+
+For a PPP we have the following well celebrated theorem.
+\begin{theorem}[\textbf{Slivnyak–Mecke Theorem}] \label{th:slivnyak}
+    Let $\Phi$ be a PPP with intensity measure $\Lambda$ on $\R^d$.
+    %
+    For $\Lambda$-\textit{almost} all $x\in\R^d$, the \textit{reduced Palm version} $\Phi^!_x$ of a PPP $\Phi$ is equal in distribution to the original PPP $\Phi$.
+    %
+    That is, for almost every $A\in\cal{B}(\R^d)$ we have that $\Phi^!_x(A)$ has the same distribution as $\Phi(A)$.
+\end{theorem}
+% \begin{theorem}[\textbf{Slivnyak–Mecke Theorem}] \label{th:slivnyak}
+%     Let $\Phi$ be a PPP with intensity measure $\Lambda$ on $\R^d$.
+%     %
+%     For $\Lambda$-\textit{almost} all $x\in\R^d$,
+%     \begin{align*}
+%         P_x^!(\cdot) = \P(\Phi\in\cdot).
+%     \end{align*}
+%     Thus, the \textit{reduced Palm distribution} of a PPP is equal to its original distribution.
+% \end{theorem}
+%
+The above theorem is essential to analyze a ``typical'' user of a wireless network positioned at some point in space.
+
+% \begin{definition}
+%     A point process $\Phi$ on $S$ is \textit{stationary} if its distribution is invariant under translation, i.e., for every $A\in\cal S$ and $x\in S$, we have that the distribution of $\Phi(A)$ is the same as $\Phi(A+x)$, where $A+x \triangleq \{a+x:a\in A\}$.
+% \end{definition}
+% %
+% This definition is in accordance with the definition of stationary for a stochastic process in view of the Note~\ref{note:pp_sp}.
+% %
+% Analogously we can define an ergodic point process using the definition of an ergodic stochastic process (Defintion~\ref{def:ergodic_process}). Using the ergodic theorem (Theorem~\ref{th:ergodic}), we have that if a point process $\Phi$ on space $S$ is ergodic, then for a \textit{measurable} function $f:\mathbb{M}\longrightarrow\R_+$
+% \begin{align*}
+%     \lim_{n\to\infty} \frac{1}{\mu(A_n)} \int_{A_n} f(\Phi+x) \d\mu(x) = \E[f(\Phi)],
+% \end{align*}
+% where $A_n$ is a 
+
+The formal definitions of stationary and ergodic for a point process can be deduced from the definitions for stochastic processes, because a point process is a special case of a stochastic process as explained in Note~\ref{note:pp_sp}.
+
+From the formal definition, we can conclude that a point process is \textit{stationary} if its distribution is invariant under translation; and a point process is \textit{ergodic} if the spatial average of any integrable function over the entire space is invariant under translation and equal to the expected value.
+%
+In general, a PPP is not stationary nor ergodic, however, a homogeneous PPP is stationary and ergodic.
+
+On a wireless network, the nodes may have some random quantities associated with them, e.g. short-term fading, medium access, packet arrival, and so on.
+%
+To handle these, we introduce the marked point process.
+%
+\begin{definition}[\textbf{Marked point process}]
+    Let $\Phi\stackrel{*}{=}\{(X_k)\}_k$ and $\hat\Phi\stackrel{*}{=}\{(X_k,M_k)\}_k$ be point processes on space $S_X$ and $S_X\times S_M$, respectively.
+    %
+    Then, $\hat\Phi$ is a \textit{marked} point process if and only if $\hat\Phi(A\times S_M) = \Phi(A)$ is \textit{almost surely} finite for every bounded $A\in \cal{S}_X \triangleq \cal{B}(S_X)$. Note that $\hat\Phi(S_X \times B)$ does not need to be finite for bounded $B\in\cal{S}_M$.
+    
+    A marked point process is said to be independently marked if given the locations of the points $\{X_k\}_k$, the marks $\{M_k\}_k$ are mutually independent random vectors on $S_M$, and for every $k\in\N$ the conditional distribution of $M_k$ depends only on the location of $X_k$, i.e., $\P(M_k\in B \mid \Phi) = \P(M_k\in B\mid X_k)$ for any $B\in\cal{S}_M$, and we denote this probability measure as
+    $
+        F_x(B) \triangleq \P(M\in B\mid X).
+    $
+\end{definition}
+
+
+For the Poisson point process, we have the following.
+\begin{theorem}
+    An independently marked PPP $\hat\Phi$ with instensity measure $\Lambda$ on $\R^d$ and marks with distribution $F_x$ on $\R^l$ is a PPP on $\R^d\times\R^l$ with intensity measure
+    \begin{align*}
+        \hat\Lambda(A\times B) = \int_A \int_B \d F_x(m)\,\d\Lambda(x), \qquad A\in\cal{B}(\R^d), B\in\cal{B}(\R^l).
+    \end{align*}
+    Thus, for a \textit{measurable} function $f:\R^d\times\R^l\longrightarrow\R_+$ we have that the Laplace functional
+    \begin{align*}
+        \mathscr{L}_{\hat\Phi}(f) = \E\left[ \exp\!\left( -\sum_k f(X_k,M_k) \right) \right] = \exp\!\left( - \int_{\R^d}\left(1 - \int_{\R^l} \euler^{-f(x,m)} \d F_x(m) \right) \d\Lambda(x)\right).
+    \end{align*}
+\end{theorem}
+
+Finally, the mathematical entity that models the aggregate interference measured at a point $y$ of the space is presented below.
+%
+\begin{definition}[\textbf{Shot-noise field}]
+    The shot-noise field $I_{\hat\Phi}$ associated with the marked point process $\hat\Phi$ on space $\R^d$ and marks on $\R^l$, and response function given by a \textit{measurable} function $L:\R^{d'}\times\R^d\times\R^l\longrightarrow\R_+$, is defined by
+    \begin{align*}
+        I_{\hat\Phi}(y) \triangleq \sum_k L(y,X_k,M_k) = \int_{\R^d}\int_{\R^l} L(y,x,m) \,\d\hat\Phi(x,m),\quad y\in\R^{d'}.
+    \end{align*}
+\end{definition}
+
+\begin{remark}
+    A convenient form we shall use to define a shot-noise field is through the abuse of notation $x\in\Phi$. In our context, this is not correct because $\Phi$ is a random measure, then it does not make sense to write $x\in\Phi$.
+    %
+    That is why we defined the notation $\Phi\stackrel{*}{=}\{X_k\}_k$ in Remark~\ref{rem:PP_set_notation}. Therefore, what we mean by $x\in\Phi$ is $x\in\{X_k\}_k$.
+    %
+    Using this, we can specify a shot-noise field with a more self-contained notation, for example,
+    \begin{align*}
+        I_{\Phi}(y) = \sum_{x\in\Phi} L(y,x,M_x),
+    \end{align*}
+    when the marks $M_x$ only depend on the position $x$ and are independent across the space.
+\end{remark}
+
+The term ``shot-noise'' comes from the one-dimensional process on $\R$. Imagine there is a cumulative effect of the ``shots'' which happened at times $\{X_k\}_k$ through the response function $f$ over time. Then, the shot-noise $I(t) = \sum_k f(t-X_k)$ is the cumulative effect of the shots that took place before time $t$.
+%
+However, in the case of a point process in $\R^d$, there is no ordering.
+%
+For the independently marked PPP we have the following result.
+\begin{theorem} \label{th:Laplace_PPP_shot-noise}
+     Let $\hat\Phi$ be an independently marked PPP with intensity measure $\Lambda$ and mark distribution $F_x$. Then, the Laplace transform of the distribution of the shot-noise $I_{\hat\Phi(y)}$ with response function $L$ is given by
+     \begin{align*}
+         \mathscr{L}_{I_{\hat\Phi(y)}}(s) \triangleq \E\!\left[\euler^{-s I_{\hat\Phi(y)}}\right] = \exp\!\left( -\int_{\R^d}\int_{\R^l}\left( 1 - \euler^{-s L(y,x,m)}\right) \d F_x(m)\,\d\Lambda(x) \right), \quad y\in\R^{d'}, s\in\C.
+     \end{align*}
+\end{theorem}
+
+All the presented properties and theorems over the homogeneous PPP illustrate and validate the analytical tractability of this mathematical object, which is useful to model the random position of nodes in a wireless network.
+%
+See \cite{lee2013stochastic} for more on the model validity of the PPP applied to wireless networks.
+
+% % % % % % % % % % % % % % % % % % 
+\section{Interference on Wireless Networks} \label{sec:P1_03_02}
+
+Let us assume that the active transmitters (which are the ones that are currently transmitting a packet) of a wireless network are distributed according to a marked point process $\hat\Phi \stackrel{*}{=}\{X_k, H_k\}_{k\in\N}$ in the space $\R^d$ with marks on $\R$, where $\{X_k\}_k \stackrel{*}{=} \Phi$ is the transmitters position and $\{H_k\}_k$ is a sequence of independent random variables that represent some random phenomena, e.g. the multipath fading and shadowing coefficient of the signal.
+%
+Then, we are interested in the aggregate interference caused by the transmitters in a given point $y\in\R^d$ of space.
+%
+The interference from each transmitter can be generally represented by a function $\ell:\R_+\longrightarrow\R_+$ of the distances of the transmitters to the point $y\in\R^d$, which usually depends on the path loss model, e.g $\ell(r) = r^{-\alpha}$, $r>0$, $\alpha > 2$.
+%
+Then, the aggregate interference can be modeled by the shot-noise field
+\begin{align} \label{eq:shot-noise_interference}
+    I(y) \triangleq \sum_{k\in\N} H_k\,\ell(||X_k-y||), \quad y\in\R^d.
+\end{align}
+
+% \begin{note}
+%     Note that $X\in\Phi$ is an abuse of notation in the sense that $\Phi$ is not the set of points of the point process, but a random measure. Then, \textit{a priori}, it is not correct to write $X\in\Phi$.
+%     %
+%     However, since this notation is used in the literature and it is convenient, we shall use it as well.
+% \end{note}
+
+An important form of characterizing the interference $I$ is through its Laplace transform
+\begin{align*}
+    \mathscr{L}_{I(y)}(s) &\triangleq \E\!\left[\euler^{-sI(y)}\right] 
+        = \E\!\left[ \exp\!\left( -s \sum_{k\in\N} H_k\,\ell(||X_k-y||)  \right) \right], \qquad s\in\C.
+\end{align*}
+
+For the special case of PPP and $\{H_k\}_k$ iid random variables that follow an exponential distribution, we can show the following very important literature result.
+\begin{theorem}
+     Let $\hat\Phi$ be an independently marked PPP with intensity measure $\Lambda$ on $\R^d$ and mark distribution $F_x$ on $\R$ such that the marks follow an exponential distribution of parameter $1$.
+     %
+     Then, the Laplace transform of the shot-noise field of interference $I$ defined in \eqref{eq:shot-noise_interference} is given by
+     \begin{align*}
+         \mathscr{L}_{I(y)}(s) = \int_{\R_d} \left(1 + \frac{1}{s\,\ell(||x-y||)}\right)^{-1}\,\d\Lambda(x),\quad s\in\C, y\in\R^d,
+     \end{align*}
+    
+    Further, if we have a homogeneous PPP of density $\lambda > 0$, then it simplifies to
+    \begin{align*}
+         \mathscr{L}_I(s) = \int_{\R_d} \left(1 + \frac{1}{s\,\ell(||x||)}\right)^{-1} \lambda\,\d x,\quad s\in\C,
+     \end{align*}
+     which no longer depends on the position $y\in\R^d$ due to the translation invariance (ergodicity) of the homogeneous PPP.
+\end{theorem}
+This can be used to model homogeneous networks subjected to Rayleigh short-term fading.
+
+Another crucial result for the theory of stochastic geometry and wireless networks can be derived for systems that operate under the \textit{capture model}.
+% Another crucial result for the theory of stochastic geometry and wireless networks regards the \textit{capture model}.
+%
+In the capture model, if the $\mathrm{SINR}$ (i.e. the ratio between the received signal power and the received interference power plus noise) is above a threshold $\theta > 0$, then the packet is successfully received at a transmitter.
+%
+\begin{proposition} \label{prop:PPP_ps}
+    Let us consider the capture model and Rayleigh short-term fading\footnote{The $\{H_k\}_k$ are iid and follow an exponential distribution of parameter $1$.}. Let the signal-to-interference-plus-noise ratio be given by
+    \begin{align*}
+        \mathrm{SINR} \triangleq \frac{H\,\ell(r)}{I + w_0},
+    \end{align*}
+    where $r>0$ is the transmission distance, $H\sim\mathscr{E}(1)$ is the short-term fading coefficient for the transmission, $w_0 \ge 0$ is a constant representing thermal noise, and the interference $I$ is defined in \eqref{eq:shot-noise_interference} for a given location $y\in\R^d$ of the receiver.
+    %
+    Then, the transmission success probability
+    \begin{align} \label{eq:Ch3_ps}
+        p_s \triangleq \P(\mathrm{SINR} > \theta) = \mathscr{L}_I\!\left( \theta/\ell(r) \right) \euler^{-\theta w_0/\ell(r)}.
+    \end{align}
+    
+    Further, if $\Phi$ is a homogeneous PPP with density $\lambda>0$, then
+    \begin{align}
+        p_s = \exp\!\big( -\lambda g_\ell(r,\theta) - \theta w_0/\ell(r) \big),
+    \end{align}
+    where $g_\ell(r,\theta) \triangleq \displaystyle\int_{\R^d} \frac{\theta \ell(||x||)}{\theta \ell(||x||)+\ell(r)} \,\d x$.
+\end{proposition}
+%
+Equation~\eqref{eq:Ch3_ps} is a handy formula to calculate the transmission success probability in wireless networks subjected to Rayleigh fading.
+%
+For the homogeneous PPP case, the function $g_\ell:\R^2_+\longrightarrow\R_+$ relates the effect of the interference per density of transmitters with the transmission success probability.
+%
+Further, we can see that the transmission success probability $p_s$ decays exponentially with the density of interferers $\lambda$.
+
+\begin{example} \label{ex:classic_network}
+    The classic example is a wireless network on the plane $\R^2$, limited by interference (noise is negligible and $w_0 = 0$), subjected to Rayleigh short-term fading and power law path loss function $\ell(r) = r^{-\alpha}$, $r>0$, $\alpha > 2$.
+    %
+    The positions of the active transmitters follow a homogeneous PPP of density $\lambda > 0$ on $\R^2$.
+    %
+    Then, using the \textit{capture model} with threshold for successful communication $\theta > 0$, we can show through Proposition~\ref{prop:PPP_ps} that the transmission success probability of a transmission with link distance $r>0$ is
+    \begin{align*}
+        p_s = \exp\!\left( -\lambda \pi r^2 \theta^\delta \frac{\delta\pi}{\sin(\delta\pi)} \right),
+    \end{align*}
+    where $\delta\triangleq 2/\alpha$, thus $\delta\in(0,1)$.
+    
+    From this, we have that the transmission success probability $p_s$ decreases with the density of transmitters $\lambda$, the link distance $r$, and the threshold for successful communication $\theta$, which is expected.
+    %
+    However, different from what is commonly expected, $p_s$ does not increase with the path loss exponent $\alpha$ in general, i.e., the increasing/decreasing analysis depends on the value of $\theta$ and the interval of $\alpha$.
+\end{example}
+
+Finally, with this example we conclude the review of stochastic geometry applied to wireless networks.

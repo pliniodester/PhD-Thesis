@@ -1,0 +1,192 @@
+\chapterquote{%
+To see what is general in what is particular and\\
+what is permanent in what is transitory is\\[.4ex]
+the aim of scientific thought.}
+{-- Alfred North Whitehead, \textit{An Introduction to Mathematics} (1911)}
+
+Recent advances on wireless communications systems are pointing towards heterogeneous networks solutions with dense deployment of nodes \cite{hossain2014evolution}.
+%
+These wireless networks are expected to provide reliable connectivity to high-mobility devices, to users with millisecond delay constraints, and applications with gigabits per second of data rate requirements \cite{peng2015recent}.
+%
+This unceasing demand for higher throughput and lower latency leads to an ever-increasing traffic of packets.
+%
+Thus, the performance of wireless networks tends to be, each day more, limited by interference. % which depends on the spatial distribution of the interferers, the arrival process of packets, the queueing dynamics.
+
+In this thesis, the studied telecommunication problem is the analysis of spatio-temporal traffic on wireless networks limited by interference.
+%
+In this first chapter, we provide a simple and introductory system model along with the approach for the analysis and the studied scenarios.
+%
+Note that a rigorous, general, and detailed model is provided in Chapter~\ref{cap:P2_00}.
+
+\newpage
+%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%
+\section{The Problem}
+
+In a wireless network, we have a set of transmitters and a set of receivers located across the space.
+%
+As time passes, for each transmitter is given packets that must be transmitted to a determined receiver as soon as possible.
+%
+Each packet is stored in a buffer and discarded upon successful reception by the corresponding receiver.
+
+When a transmitter sends a packet, it interferes with other transmissions, and vice-versa. This aggregate interference is determined according to the transmit power of each transmitter, the transmission distance, and some random effects (e.g. fading).
+%
+Then, we determine whether a transmission was successful depending on the signal and the aggregate interference received by the receiver.
+
+\textbf{What are the \textit{givens} of the problem?}%
+\setlist{nolistsep}%
+\begin{enumerate}[itemsep=1pt]
+    \item The spatial position distribution of the transmitters and receivers.
+    
+    \item The arrival process of packets for each transmitter.
+    
+    \item The propagation model that affects the transmitted signals, e.g. path loss, fading.
+    
+    \item The network operation model or queueing system model, that describes the rules of packet buffering and transmitting, e.g. Aloha, CSMA.
+    
+    \item The transmission success probability model that decides whether a packet is successfully received based on the received signal and the received interference.
+\end{enumerate}
+
+\textbf{What do we want to \textit{know}?}%
+\setlist{nolistsep}%
+\begin{enumerate}[itemsep=1pt]
+    \item Reliability metrics, i.e., metrics related to the transmission and packet success probabilities.
+
+    \item Throughput metrics, i.e., metrics related to the number of successfully delivered packets, such as mean throughput, stability.
+    
+    \item Delay metrics, i.e., metrics related to the amount of time to deliver packets, such as mean delay, queue load, age-of-information.
+\end{enumerate}
+
+Regarding the \textit{givens}, we can relax them in some aspects.
+%
+For example, instead of working with a specific path loss model, we let the path loss model be an arbitrary function with some constraints.
+%
+When the problem is analytically tractable, usually there is little cost to let some well-chosen parameters (or even functions) be arbitrary.
+%
+Then, once we let a set of \textit{givens} arbitrary, we attain a better comprehension of the relationship between these \textit{givens} and the \textit{knowns} we are interested in.
+%
+We also obtain a generalization of the problem.
+
+% In this sense, our approach is to study the tractable models used by the scientific community and let some of the ``givens'' be arbitrary.
+% %
+% More specifically, we choose the ``givens'' (e.g. arrival rate, access probability) for which we are interested in better understanding their relationship with the ``knowns'' (e.g. throughput, delay).
+
+More specifically, the standard \textit{given} scenario of this thesis assumes a single class of users sharing the same frequency bandwidth and the following \textit{givens}:
+\begin{enumerate}
+    \item High-mobility Poisson network, i.e., the nodes' positions follow a Poisson point process.
+    \item Packets arrive according to a Poisson (or Bernoulli) process.
+    \item The signals are subjected to Rayleigh fading and power law path loss model.
+    \item Packets are queued in infinite buffers, and transmitters access the channel according to a Poisson (or Bernoulli) process.
+    \item Transmission success is decided by the capture model.
+\end{enumerate}
+
+% a high-mobility Poisson network under random-access, limited by interference, subject to Rayleigh fading and power law path loss model, packets are queued in infinite buffers, transmission success is decided by the capture model, and there is a single class of users sharing the same frequency bandwidth.
+%
+This standard model from the literature is easily (analytically) tractable, as it is shown in Section~\ref{sec:P1_03_02}.
+%
+For each scenario studied in this thesis, we list in Table~\ref{tab:givens} the \textit{givens} that we modified, flexibilized and generalized from the standard model, and the \textit{knowns} for which we established a connection.
+
+\begin{table}[htb]
+    \centering
+    \begin{tabular}{c|l|l}
+    \hline
+    Location & Change on the \textit{givens}  & The \textit{knowns} \\
+        \hline\hline
+    Ch.~\ref{cap:P2_01} & transmission success models, no buffer
+        & throughput, reliability \begin{tabular}[c]{@{}l@{}}~\\ ~ \end{tabular}\\\hline
+    Ch.~\ref{cap:P2_02} & \begin{tabular}[c]{@{}l@{}}maximum number of retransmissions,\\ general transmission success model \end{tabular}
+        & \begin{tabular}[c]{@{}l@{}}throughput, reliability,\\ delay, age-of-information\end{tabular}\\\hline
+    Sec.~\ref{sec:high-mobility} & $N$ classes of users
+        & \begin{tabular}[c]{@{}l@{}}stability, throughput, reliability,\\ delay, queue load\end{tabular} \\\hline
+    Sec.~\ref{sec:bandwidth} & $2$ classes of users, bandwidth partition
+        & \begin{tabular}[c]{@{}l@{}}stability, throughput, reliability,\\ delay, queue load\end{tabular}\\\hline
+    Ch.~\ref{cap:P2_04} & \begin{tabular}[c]{@{}l@{}}static elements, general path loss model,\\ general distribution of link distances\end{tabular}
+        & \begin{tabular}[c]{@{}l@{}}stability, queue load,\\
+            stationary distribution\end{tabular}\\
+    \hline
+    \end{tabular}
+    \caption{Variations on the \textit{givens} of the base model.}
+    \label{tab:givens}
+\end{table}
+
+A thorough review of the literature models used in this thesis and their applications can be found in the tutorials \cite{haenggi2021stochastic, cardieri2010modeling}.
+
+%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%
+\section{Outline of the Thesis}
+
+We assume the reader is familiar with probability theory, calculus, and optimization.
+%
+However, we do not assume familiarity with measure theory nor stochastic geometry. That is why we provide a succinct review on these subjects.
+%
+This knowledge is necessary for stating and understanding definitions and theorems from this thesis and from the well-celebrated books of stochastic geometry and wireless networks \cite{baccelli2010stochastic} and \cite{haenggi2012stochastic}.
+%
+Nevertheless, the reader that is not interested in mathematical details and proofs can skip some parts as indicated throughout the manuscript in notes highlighted with light-blue boxes.
+%
+Furthermore, for ease of reading, on the left side of every proof, there is a vertical line. Therefore, the proofs that do not interest the reader can be easily skipped.
+
+In this manuscript, we differentiate \textit{lemmas}, \textit{theorems}, and \textit{propositions} in the following manner.
+%
+We let the short and mathematical results that are used to prove other statements be the \textit{lemmas}.
+%
+For the results which are related to the physical problem, yet they have a mathematical basis in the sense that their existence is independent of the physical problem, those we call \textit{theorems}.
+%
+Finally, the results which are strongly related to the physical problem and alone do not have significance, those we call \textit{propositions}.
+
+Throughout the thesis, we also have the \textit{remarks} and the \textit{notes}, which are highlighted in gray and light-blue boxes, respectively.
+%
+Their purpose is to comment on aforementioned results.
+%
+We reserve the more contextualized and formal comments to the \textit{remarks}, and the more digressive and informal comments to the \textit{notes}.
+
+% We decided to include several definitions, because when we say that the system model is over a ``stationary and ergodic Poisson network'' the reader is able to check what exactly that means.
+
+% \begin{itemize}
+%     \item Mathematical optimization.
+%     %
+%     This knowledge is necessary for stating and understanding definitions and theorems from stochastic geometry presented on the well celebrated books \cite{baccelli2010stochastic} and \cite{haenggi2012stochastic}.
+    
+%     \item (alternatively) In this thesis we need measure theory (applied to integration and probability) to present and prove some results. Since this is not a common subject in the engineering curriculum, we provide a succinct introduction of this topic in Chapter~\ref{cap:P1_02} focusing on the results we need.
+    
+%     \item The thesis is readable without measure theory, except for Chapter~\ref{cap:P1_03} and some proofs.
+    
+%     \item We tried to be mathematically rigorous because we have general results and it is not possible to simulate every representative choice of model to guarantee them;
+    
+%     \item General results in the sense that they are valid for arbitrary functions that represent, e.g, the path loss, the success transmission model, the link distance distribution.
+    
+%     \item We are following the formalism adopted in the well celebrated books in the area of stochastic geometry applied to wireless networks \cite{baccelli2010stochastic}, \cite{haenggi2012stochastic}.
+% \end{itemize}
+
+This thesis is organized in nine chapters and two appendices.
+%
+This first chapter presents, in an intuitive and general manner, the main problem and the approach adopted to study it.
+%
+The other chapters are summarized below.
+
+\begin{description}
+    \item[Chapter~2:] We present the notations and definitions used throughout the manuscript. We also provide a succinct review of measure theory applied to integration and probability. They are necessary to understand stochastic geometry and several proofs of this thesis.
+    
+    \item[Chapter~3:] In this chapter, we present the theory of point processes and random measures. Then, we present some known and extensively used results of stochastic geometry applied to wireless networks.
+    
+    \item[Chapter~4:] This is the first chapter with contributions.
+    We present a general system model for a wireless network and some definitions, which are used until the end of the thesis.
+    
+    \item[Chapter~5:] We consider a Poisson process to model packet transmissions and characterize the distribution of the interference in this model.
+    
+    \item[Chapter~6:] This chapter includes retransmission and analyzes the impact of this strategy in the throughput and delay.
+    
+    \item[Chapter~7:] Here we include the spatial positions of the nodes in the analysis. We also model the buffers of the transmitters as queues and study their stability.
+    
+    \item[Chapter~8:] In this chapter we introduce static elements. More precisely, the link distances between transmitters and receivers are fixed across time. This consists of a challenging class of problems because static elements hinder tractability.
+    
+    \item[Chapter~9:] We conclude the thesis listing the main contributions and prospects for future research.
+    
+    \item[Appendix~A:] Some definitions and results of real analysis used in the thesis.
+    
+    \item[Appendix~B:] A brief review of queueing theory (delay, stability).
+\end{description}
+
+%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%
+\section{Author's Publications}
+
+This thesis is based on three published international journal papers \cite{dester2018,dester2021unique, dester2021retrans}, and one submitted paper \cite{dester2021part}.
+%
+Besides, the author has three published international journal papers \cite{dester2017stationary, francisco2020, bergamo2021} and two conference papers \cite{dester2018mtc, helder2019lora} that are not covered by this thesis.

@@ -1,0 +1,74 @@
+\chapterquote{%
+We must stop somewhere, and that science may be possible, we must stop when we have found simplicity. \qquad This is the only ground on which we can rear the edifice of our generalizations.}%
+{-- Henri Poincaré, \textit{Science and Hypothesis} (1901)}
+
+Let us start the conclusion by briefly comparing all the system models through the metrics defined in Chapter~\ref{cap:P2_00}.
+%
+More specifically, traffic $\upsilon$, transmission success probability $p_s$, packet success probability $p_p$, throughput $\mathscr{T}$, and queue load $\rho$. We can write the following table comparing the system models of each chapter.
+%
+Let us consider a single class of users and the packet length $\tau = 1$ unit of time so that the comparison is more clear.
+
+\def\arraystretch{2}
+\begin{table}[htb]
+    \centering
+    \begin{tabular}{c|c|c|c|c|c|c}
+    \hline
+         &  $\upsilon$ & $p_s$ & $p_p$ & $\mathscr{T}$ & $\rho$ & Observations \\\hline\hline
+    Ch.~\ref{cap:P2_01} & $\lambda a$ & $p_s(\upsilon)$ & \bf -- & $\upsilon\,p_s(\upsilon)$ & \bf -- & $p_s$ depends on the model \\
+    Ch.~\ref{cap:P2_02} & $\dfrac{1-\xi^m}{1-\xi}\upsilon_0$ & $p_s(\upsilon)$ & $\dfrac{\upsilon}{\upsilon_0}p_s(\upsilon)$ & $\upsilon\,p_s(\upsilon)$ & $\dfrac{a(1-p_s)}{r+a}\dfrac{\upsilon}{\upsilon_0}$ & $p_s$ is arbitrary, $\xi=\frac{r(1-p_s)}{r+a}$ \\
+    Ch.~\ref{cap:P2_03} & $\dfrac{\lambda a}{1-\psi\lambda a}$ & $\dfrac{1}{1+\psi\upsilon}$ & $1$ & $\upsilon\,p_s(\upsilon)$ & $\dfrac{a}{p}(1+\psi\upsilon)$ & $\psi\lambda a < 1$ (stable) \\
+    Ch.~\ref{cap:P2_04} & $\lambda p \bar\rho$ & \eqref{eq:ps_Ch8} & $1-\varepsilon$ & $\upsilon\,p_s(\upsilon)$ & $\bar\rho=\varphi(\bar\rho)$ & $\varepsilon$-stable \\
+    \hline
+    \end{tabular}
+    \caption{Comparison of some metrics among all the system models. We filled with a dash when the metric does not make sense.}
+    \label{tab:comparison}
+\end{table}
+%
+\begin{align}
+    p_s &= \frac{\lambda}{\upsilon}\int_{\R_+}\min\!\left\{ a, p\,\euler^{-g_\ell(r)\upsilon} \right\}\d F_R(r).\label{eq:ps_Ch8}
+\end{align}
+
+Expression \eqref{eq:ps_Ch8} is used in Table~\ref{tab:comparison}.
+
+\vspace{5mm}
+Some points that drew our attention in Table~\ref{tab:comparison} are listed below.
+\begin{itemize}
+    \item The throughput $\mathscr{T}$ can be expressed in the same simple form $\upsilon\,p_s(\upsilon)$ for all models, which suggests that Theorem~\ref{th:unique_opt} is quite applicable, and motivates to find a proof for Conjecture~\ref{conj:unique_opt}, which may be used even if we have user classes with different packet lengths.
+    
+    \item The packet success probability $p_p$ is $1$ for the model of Ch.~\ref{cap:P2_03} when the system is stable because the packets are not discarded. On the other hand, in the model of Ch.~\ref{cap:P2_04}, although packets are not discarded $p_p = 1-\varepsilon\le 1$. This happens because the packets that arrive at queues that are not stable will not be delivered, and the proportion of unstable queues is precisely $\varepsilon$.
+    
+    \item For the traffic column $\upsilon$, it is interesting to note that for the models with retransmissions strategies, if there are retransmissions, then $\upsilon > \lambda a = \upsilon_0$.
+\end{itemize}
+
+\vspace{5mm}
+Now, let us succinctly list the main contributions.
+\begin{itemize}
+    \item We derived closed form expressions to characterize, in certain scenarios, the distribution of the interference in a wireless network where packets are transmitted according to a Poisson process.
+    
+    \item In a network where only the most recent packets matter, the best random-access retransmission strategy is to choose the smallest value of the maximum number of retransmissions per packet that satisfy a given constraint (throughput, transmission/packet success probability, or traffic) and adjust the retransmission rate accordingly.
+    
+    \item We proposed an analytically tractable model for the study of the intricate problem of $N$ different user classes sharing the same channel and derived closed form expressions for the stability region, the mean transmission success probability, and the mean delay for each class.
+    
+    \item We found closed form expressions to maximize the throughput and minimize the delay in the tractable model of $N$ user classes.
+    
+    \item Again, using the tractable model of $N$ user classes, we found for $N=2$ that performing frequency bandwidth partition for one of the classes may improve the performance of the system in respect to throughput and delay.
+    
+    \item We found a counterexample for the unicity of the stationary distribution in static Poisson networks. In the counterexample, each stationary state has a significantly different performance, which suggests that this matter is important and should not be neglected.
+    
+    \item We derived simple sufficient conditions for unicity of the stationary in a general scenario. We also proposed a necessary and sufficient condition that must be verified numerically.
+\end{itemize}
+
+\vspace{5mm}
+To conclude, let us present the topics we wish to tackle in future researches.
+
+\begin{itemize}
+    \item Firstly, and most importantly, we want to explore in more detail the reasons and conditions that lead to non-unicity of a stationary distribution in a wireless network.
+    
+    \item Prove Conjecture~\ref{conj:unique_opt}.
+    
+    \item Apply the tractable model of $N$ user classes to analyze other properties of high-mobility wireless networks limited by interference.
+    
+    \item Along with the Internet of Things (IoT), there is a surge to uncoordinated networks, which may render valuable the unslotted analysis of Chapter~\ref{cap:P2_01}.
+    %
+    An interesting (and very intricate) direction to explore those results would be for different packet lengths.
+\end{itemize}

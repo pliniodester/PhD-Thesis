@@ -1,0 +1,160 @@
+\chapter{Real Analysis} \label{app:RealAnalysis}
+
+This appendix is devoted to present some definitions and results from real analysis that are used in the manuscript.
+%
+Further details and proofs can be found in \cite{rudin1976principles}.
+
+\begin{definition}[\textbf{Metric Space}] \label{def:metric_space}
+    A metric space is an ordered pair $(M,d)$, where $M$ is a set and $d:M \times M \longrightarrow \R$ is a metric on $M$ that for any $x,y,z \in M$ satisfies:
+    \begin{align*}
+        1.&~d(x,y) = 0 \text{ if and only if } x=y, &&\text{(identity of indiscernibles)}\\
+        2.&~d(x,y) = d(y,x), &&\text{(symmetry)}\\
+        3.&~d(x,z) \le d(x,y) + d(y,z), &&\text{(triangle inequality)}.
+    \end{align*}
+\end{definition}
+
+The non-negativity property (i.e., $d(x,y) \ge 0$ for any $x,y\in M$) follows from the axioms.
+
+\begin{definition}[\textbf{Neighborhood}] \label{def:neighborhood}
+    In a metric space $(M,d)$, a set $V$ is a \textit{neighbourhood} of a point $x_0\in M$ if there exists an open ball $B_r(x_0) \triangleq \{x \in M \mid d(x,x_0) < r\}$ with centre $x_0$ and radius $r>0$, such that the set $B_r(x_0) \subset V$. 
+\end{definition}
+
+Intuitively, a neighborhood $V$ of a point $x_0$ is a set that encloses $x_0$ in the sense that one can move a certain amount in any direction starting from $x_0$ without leaving $V$.
+
+\begin{theorem}[\textbf{Intermediate value theorem}] \label{th:IVT}
+    Let $a < b$. Let the interval $I = [a,b]$ of $\R$ and a continuous function $f:I\longrightarrow\R$.
+    %
+    If $u\in\R$ is such that \[\min\{f(a),f(b)\} < u < \max\{f(a),f(b)\},\] then there exists $c\in(a,b)$ such that $f(c) = u$.
+\end{theorem}
+
+Above we state the well known property of continuous functions that roughly says a function $f$ assumes at least all values between $f(a)$ and $f(b)$ if we consider the interval $[a,b]$.
+
+\begin{theorem}[\textbf{Banach fixed point theorem}] \label{th:banach}
+    Let $(M,d)$ be a non-empty \textit{complete}\footnote{A metric space $M$ is \textit{complete} if every limit point of $M$ is in $M$.} metric space with a function $\varphi:M\longrightarrow M$ such that for some $c\in[0,1)$ we have that $d(\varphi(x),\varphi(y))\le c\,d(x,y)$ for all $x,y\in M$.
+    %
+    Then, $\varphi$ admits a unique fixed point in $M$.
+\end{theorem}
+
+Above we state an extremely important tool to prove existence and uniqueness of solutions to equations, integral and differential equations, recurrence equations, and so on.
+
+It is interesting to note that the unicity comes trivially as follows.
+%
+Let $x$ and $y$ be two fixed points. Then, $d(\varphi(x),\varphi(y)) = d(x,y) \le c\,d(x,y)$, which is only true if $x=y$.
+
+% % % % % % % % % % % % % % % %
+% % % % % % % % % % % % % % % % 
+\chapter{Queueing Theory}
+
+This appendix is devoted to present some definitions and results from queueing theory that are used in the manuscript.
+%
+Further details and proofs can be found in \cite{baccelli2013elements}.
+
+Let us define a queue $\{Q(t)\}_t$ as a Markov chain (Definition~\ref{def:markov_chain}) with state space $\N$ and index space $\T$ (usually $\N$ or $\R_+$).
+%
+The number of packets (or entities) in a queue at time $t\in \T$ is denoted by the random variable $Q(t)$ and it must satisfy an equation of the kind
+\begin{align}
+    Q(t) = Q(t_0) + A(t_0,t] - E(t_0,t], \qquad \text{for every}~ t_0,t\in\T,
+\end{align}
+where $A$ and $E$ are point processes on $\T$ and represent the arrival and the departure of packets, respectively.
+%
+Note that $E(t_0,t]$ cannot be independent from $Q(t_0)$, otherwise we might have a negative amount of queued packets at a moment.
+
+To eliminate this dependence in our context of telecommunication, we usually define a point process $T$ on $\T$ that represents the moments the transmission can begin.
+%
+Let $T$ be the times for which a transmitter can access the channel.
+%
+This transmitter will not access the channel if its queue is empty.
+Then, we use the function $\ind\{Q(\cdot) > 0\}$ that is $1$ if the queue is non-empty, and $0$ otherwise.
+%
+% Let $T^*$ be a \textit{thinning} of $T$ without the points for which the queue is empty, i.e., $T^* = T^{(\ind\{Q(\cdot)>0\})}$.
+%
+We also define a \textit{measurable} success function $f_s:\T\to[0,1]$ that represents the probability for which a transmission is successful at a given time.
+%
+Supposing the transmission time is $\tau>0$, a simple form to define a queue process is using the \textit{thinning} of the point process $T$ through the functions $f_s$ and $\ind\{Q(\cdot) > 0\}$. Then,
+\begin{align} \label{eq:def_queue}
+    Q(t+\tau) = Q(t) + A(t,t+\tau] - T^{(\ind\{Q(\cdot) > 0\} f_s)}(t-\tau,t], \qquad \text{for every} ~ t\in\T.
+\end{align}
+
+A handful theorem to calculate the mean delay in queueing systems is known as Little's law \cite{little1961proof}, which is stated below.
+
+\begin{theorem}[\textbf{Little's law}] \label{th:little}
+    For a queueing system\footnote{A queueing system is represented by a collection of queues $\{Q_1(t), Q_2(t), \dots\}_{t\in\T}$ and we assume the arrival and departure processes are strictly jointly stationary.}, $L = a\,W$ holds, where $L$ is the time average of the number of packets in the system, $a$ is the average number of packets that arrived per unit of time, and $W$ is the average time each packet waited in the system.
+    
+    For a queue $\{Q(t)\}_{t\in\T}$, $\T=[0,\infty)$, these quantities are given by\footnote{For general \textit{measure space} $(\T,\cal{B}(\T),\mu_T)$, take the integrals in respect to the measure $\mu_\T$.}
+    \begin{align*}
+        L = \lim_{\tau\to\infty} \frac{1}{\tau} \int_0^\tau Q(t)\,\d t,
+        \quad
+        a = \lim_{\tau\to\infty} \frac{A[0,\tau]}{\tau},
+        \quad
+        W = \lim_{\tau\to\infty} \frac{1}{A[0,\tau]} \int_0^\tau Q(t)\,\d t,
+    \end{align*}
+    from which $L = a\,W$ immediately follows.
+\end{theorem}
+
+Usually it is easier to calculate the mean number of packets and the mean arrival rate of packets in the system. Then, using Little's law, the mean delay is easily obtained from those.
+
+Now, we present the important concept of stability in a queueing system. Let us adopt the definition used by Szpankowski \cite{szpankowski1994stability}, presented next.
+
+\begin{definition}[\textbf{Stability}] \label{def:stability}
+	A queue $\{Q(t)\}_t$ is stable if for $x\in\N$
+    \begin{equation*}
+    	\lim_{t\to\infty} \P(Q(t) \le x)
+    	    = F(x) \quad\text{and}\quad \lim_{x\to\infty} F(x) = 1,
+    \end{equation*}
+    where $F:\R_+\longrightarrow[0,1]$ is the limiting distribution function.
+    
+    A queueing system $\{Q_1(t), Q_2(t), \dots\}_t$ is stable if, for every $i$, each queue $\{Q_i(t)\}_t$ is stable \textit{almost surely}.
+    %
+    % Then, the \textit{stability region} is the set of mean arrival rates $\bm{a} = (a_1, a_2, \dots)$ that makes the queueing system stable.
+\end{definition}
+
+More succinctly, we can say a queueing system is stable if it admits a \textit{proper} limiting distribution.
+%
+An important form to verify whether a queue or a queueing system is stable is through the following theorem, known as Loyne's theorem \cite{loynes1962stability}.
+
+\begin{theorem}[\textbf{Loyne's theorem}] \label{th:loynes}
+    Let $\{Q(t)\}_{t\in\T}$ as defined in \eqref{eq:def_queue} be a queue with ergodic arrival and access point processes $A$ and $T$, respectively, and success function $f_s$.
+    %
+    Let \vspace{-5mm}
+    \begin{align*}
+        \rho\triangleq \displaystyle\lim_{t\to\infty}\frac{\E[A[0,t)]}{\E[T^{(f_s)}[0,t)]}.
+    \end{align*}
+    
+    If $\rho < 1$, then the queue $\{Q(t)\}_t$ is stable.
+\end{theorem}
+
+In fact, Loyne's theorem is more general and deep than what we stated here.
+%
+It guarantees existence and uniqueness of the delay distribution and deals with the cases $\rho=1$ and $\rho>1$.
+%
+However, for our purposes, the above statement is enough.
+
+A queue that is evoked throughout the thesis is the Geo/Geo/1 queue. The definition follows.
+%
+\begin{definition}[\textbf{Geo/Geo/1}] \label{def:geo/geo/1}
+    The Geo/Geo/1 queue is a queue $\{Q(t)\}_{t\in\T}$, as defined in \eqref{eq:def_queue}, for which we have $\T=\N$, $A$ and $T$ are discrete Bernoulli point processes\footnote{A discrete Bernoulli point process $\Phi$ is a point process on a discrete set $\T$, such that, for every $t\in\T$, $\Phi(\{t\})$ follows iid Bernoulli distributions.} on $\T$, $f_s$ is a constant function, and $\tau = 1$.
+    
+    We let the constants $a,p,p_s\in[0,1]$ represent the arrival rate, access rate and success probability. More precisely, for every $t\in\T$, $A(\{t\})\sim\mathscr{B}(a)$, $T(\{t\})\sim\mathscr{B}(p)$, and $f_s \equiv p_s$.
+\end{definition}
+
+The delay and the distribution of the elements of this queue at stationary are given by the following theorem.
+
+\begin{theorem} \label{th:geo/geo/1}
+    Let $\{Q(t)\}_t$ be a \textrm{Geo/Geo/1} queue.
+    %
+    If this queue satisfies the conditions of the Loyne's theorem, i.e., $\rho = a/(p\,p_s) < 1$.
+    %
+    Then, the stationary distribution of the number of elements in the queue is given by
+    \[  \lim_{t\to\infty} \P\big(Q(t)=n\big) =
+        \begin{cases}
+            \dfrac{\rho\,(1-\rho)}{\rho-a}\left(\dfrac{\rho-a}{1-a}\right)^n, & n\in\N^*\\
+            1-\rho, & n = 0.
+        \end{cases}
+    \]
+    
+    Furthermore, from Little's law, the average time each packet waits in the system is
+    \begin{align*}
+        W = \lim_{t\to\infty}\frac{\E[Q(t)]}{a} = \frac{\rho}{a}\, \frac{1-a}{1-\rho} = \frac{1-a}{p\,p_s - a}.
+    \end{align*}
+\end{theorem}
+

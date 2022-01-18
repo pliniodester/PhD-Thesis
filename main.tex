@@ -1,0 +1,491 @@
+%% abtex2-modelo-trabalho-academico.tex, v-1.7.1 laurocesar
+%% Copyright 2012-2013 by abnTeX2 group at http://abntex2.googlecode.com/
+%%
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%   http://www.latex-project.org/lppl.txt
+%% and version 1.3 or later is part of all distributions of LaTeX
+%% version 2005/12/01 or later.
+%%
+%% This work has the LPPL maintenance status `maintained'.
+%%
+%% The Current Maintainer of this work is the abnTeX2 team, led
+%% by Lauro C\'{e}sar Araujo. Further information are available on
+%% http://abntex2.googlecode.com/
+%%
+%% This work consists of the files abntex2-modelo-trabalho-academico.tex,
+%% abntex2-modelo-include-comandos and abntex2-modelo-references.bib
+%%
+
+% ------------------------------------------------------------------------
+% ------------------------------------------------------------------------
+% abnTeX2: Modelo de Trabalho Academico (tese de doutorado, dissertacao de
+% mestrado e trabalhos monograficos em geral) em conformidade com
+% ABNT NBR 14724:2011: Informacao e documentacao - Trabalhos academicos -
+% Apresentacao
+% ------------------------------------------------------------------------
+% ------------------------------------------------------------------------
+
+\input{preambulo}
+
+\usepackage[left=3cm,top=3cm,right=2cm,bottom=2cm]{geometry}
+
+\DisemulatePackage{setspace}
+\usepackage{setspace}
+\onehalfspacing
+
+% ---- compila o \'{\i}ndice  ----
+\makeindex
+\makenomenclature
+% ---
+
+% ---- In\'{\i}cio do documento ----
+\begin{document}
+\selectlanguage{english}
+% \mathcode`l=`ll
+
+% Retira espa\c{c}o extra obsoleto entre as frases.
+\frenchspacing
+
+% ---- ELEMENTOS PR\'{E}-TEXTUAIS ----
+\pretextual
+
+% \setcounter{page}{-1}
+\pagenumbering{arabic} % roman % gobble
+
+% --- Capa ---
+\imprimircapa
+% ---
+\setcounter{page}{2}
+% --- Folha de rosto (o * indica que haver\'{a} a ficha catalogr\'{a}fica) ---
+\imprimirfolhaderosto*
+% ---
+
+% --- Inserir a ficha catalogr\'{a}fica ---
+
+% Isto \'{e} um exemplo de Ficha Catalogr\'{a}fica, ou ``Dados internacionais de
+% cataloga\c{c}\~{a}o-na-publica\c{c}\~{a}o''. Voc\^{e} pode utilizar este modelo como refer\^{e}ncia.
+% Por\'{e}m, provavelmente a biblioteca da sua universidade lhe fornecer\'{a} um PDF
+% com a ficha catalogr\'{a}fica definitiva ap\'{o}s a defesa do trabalho. Quando estiver
+% com o documento, salve-o como PDF no diret\'{o}rio do seu projeto e substitua todo
+% o conte\'{u}do de implementa\c{c}\~{a}o deste arquivo pelo comando abaixo:
+
+% --- Para a vers\~{a}o final, delete as linhas abaixo e insira a linha do \includepdf
+ \begin{fichacatalografica}
+    % \vspace*{\fill}
+    % \begin{center}
+    %     \textsc{Inclua aqui o pdf com a ficha catalogr\'{a}fica fornecida pela BAE.}
+    % \end{center}
+    % \vspace*{\fill}
+% --- --- ---
+    \includepdf{ficha-catalografica.pdf}
+ \end{fichacatalografica}
+% ---
+
+
+% --- Inserir folha de aprova\c{c}\~{a}o ---
+
+% Isto \'{e} um exemplo de Folha de aprova\c{c}\~{a}o, elemento obrigat\'{o}rio da NBR
+% 14724/2011 (se\c{c}\~{a}o 4.2.1.3). Voc\^{e} pode utilizar este modelo at\'{e} a aprova\c{c}\~{a}o
+% do trabalho. Ap\'{o}s isso, substitua todo o conte\'{u}do deste arquivo por uma
+% imagem da p\'{a}gina assinada pela banca com o comando abaixo:
+
+% --- Na vers\~{a}o final, exclua essas linhas e insira o \includepdf
+% \newpage
+% \vspace*{\fill}
+% \begin{center}
+    % \textsc{Inclua aqui a folha de assinaturas.}
+% \end{center}
+% \vspace*{\fill}
+% \newpage
+% --- --- ---
+%\includepdf[pagecommand={\thispagestyle{plain}}]{folha-assinaturas.pdf}	
+% \includepdf[pages=1-3,pagecommand={\thispagestyle{plain}}]{folha-assinaturas.pdf}
+% \cleardoublepage
+% A Ata da defesa com as respectivas assinaturas dos membros encontra-se no SIGA/Sistema de Fluxo de Dissertação/Tese e na Secretaria do Programa da Unidade.
+
+\begin{folhadeaprovacao}
+
+\begin{center}
+    {\Large\textsc{Comissão Julgadora -- Tese de Doutorado}}
+    %\textsc{Inclua aqui a folha de assinaturas.}
+\end{center}
+\noindent
+\begin{minipage}{\textwidth}\SingleSpacing
+\textbf{Candidato:} Plínio Santini Dester \qquad \textbf{RA:} 103806
+
+\textbf{Data de defesa:} 10 de novembro de 2021
+
+\textbf{T\'{i}tulo da Tese:} ``Tráfego espaço--temporal em redes de interferência''
+\vspace{2cm}
+
+Prof. Dr. Paulo Cardieri (Presidente)
+
+Prof. Dr. Charles Casimiro Cavalcante
+
+Prof. Dr. Michel Daoud Yacoub
+
+Prof. Dr. Renato da Rocha Lopes
+
+Prof. Dr. Richard Demo Souza
+
+\vspace{2cm}
+
+\textit{A Ata de Defesa, com as respectivas assinaturas dos membros da Comiss\~{a}o Julgadora, encontra-se no SIGA (Sistema de Fluxo de Disserta\c{c}\~{a}o/Tese) e na Secretaria de P\'{o}s-Gradua\c{c}\~{a}o da Faculdade de Engenharia El\'{e}trica e de Computa\c{c}\~{a}o.}
+\end{minipage}
+
+\end{folhadeaprovacao}
+
+% --- Dedicat\'{o}ria ---
+\begin{dedicatoria}
+    \vspace*{\fill}
+    \centering
+    \noindent
+    \flushright{\large\textit{To my parents}}
+    \vspace*{\fill}
+\end{dedicatoria}
+% ---
+
+% --- Agradecimentos ---
+\begin{center}
+    \noindent{\Huge Acknowledgements}
+\end{center}
+I would like to express my gratitude to my parents Ivana and Mauricio who provided full support and were very comprehensive during the writing of this thesis.
+
+I would like to thank my doctoral advisor Paulo Cardieri for his friendly, thoughtful, and flexible supervision, providing support whenever necessary.
+%
+I would also like to thank professor Pedro Henrique Juliano Nardelli who was practically a co-advisor for the published papers related to this thesis, and sent, from time to time, interesting and relevant articles to me.
+%
+I would also like to thank professor Rubem Toledo Bergamo, professor Francisco Helder Candido dos Santos Filho, and Rafael Augusto Pedriali for our collaborative works.
+%
+Thank you all for the opportunity to work alongside you!
+
+In addition, I would like to thank professors:
+%
+Matheus Souza, for selecting me as PED for three semesters in different subjects and managing to not get tired of me (I think), it was a very pleasant and enriching experience;
+%
+Michel Yacoub, for the stimulating and friendly conversations about applied and non-applied mathematics;
+%
+Pedro Peres, for the patience and interest in hearing my mathematical ramblings, and for the exciting discussions about Borwein's sums/integrals and problems alike;
+%
+Renato Lopes, for the interesting conversations about probability theory;
+%
+João Bosco, for the end of class discussions about subtleties in some results from vector and complex calculus;
+%
+Marina Vachkovskaia, for including my ``challenge problems'' at the end of the lists of exercises, and making them worth bonus points for the solvers.
+%
+Thank you all, for the pleasant time spent together at UNICAMP.
+
+I would like to acknowledge all the professors of \textit{École Polytechnique} and UNICAMP that contributed to my formation, specially the professors Philippe, Cândido, Clemente, Amorim, Violaro, Romis, Firer, Leo Pini, Alim, Mosna, Kleber, Gustavo, Max, Yaro, Pagan.
+
+Further, I want to thank my friends and colleagues of the WissTek and surrounding labs for the pleasant times spent together, specifically Rafa, André, Tejerina, Diana, Byron, Rubem, Pedro, Fernando, Carlos, Francisco, Reginaldo, Yalena, Alessandro, Lucas, Cintia.
+
+In addition, I would like to express my gratitude to Christine Fricker, which taught me much about mathematical writing; Christine checked every proof I wrote, provided feedback, and gave support during my internship at INRIA.
+%
+I would also like to include Danielle Tibi in this acknowledgement. Without Christine and Danielle it would not be possible to publish a result on the classical problem \textit{join the shortest queue}.
+
+Further, I would like to thank my family, specially my aunt Iara. I also want to thank my friends Dani, Rique, Shiba, Tay, Marcos, Zé, Zé Cazarin, Gleison, Lionis, Gabes, Gaby, Carol, Caio, TioBacca, Allan, Gui, Nec, Luiz, Pudim, and Blanco that, through our Discord server \textit{Planilha is always an option}, kept me sane during the COVID-19 pandemic.
+
+Finally, I would like to thank The São Paulo Research Foundation (FAPESP), which provided financial support to this research project through the grant 2017/21347-0.
+\newpage
+
+% \begin{agradecimentos}
+%     I would like to express my gratitude to my parents Ivana and Mauricio who provided full support and were very comprehensive during the writing of this thesis.
+    
+%     I would like to thank my doctoral advisor Paulo Cardieri for his friendly, thoughtful, and flexible supervision, providing support whenever necessary.
+%     %
+%     I would also like to thank professor Pedro Henrique Juliano Nardelli who was practically a co-advisor for the published papers related to this thesis, and sent, from time to time, interesting and relevant articles to me.
+%     %
+%     I would also like to thank professor Rubem Toledo Bergamo, professor Francisco Helder Candido dos Santos Filho, and Rafael Augusto Pedriali for our collaborative works.
+%     %
+%     Thank you all for the opportunity to work alongside you!
+    
+%     In addition, I would like to thank professors:
+%     %
+%     Matheus Souza, for selecting me as PED for three semesters in different subjects and managing to not get tired of me (I think), it was a very pleasant and enriching experience;
+%     %
+%     Michel Yacoub, for the stimulating and friendly conversations about applied and non-applied mathematics;
+%     %
+%     Pedro Peres, for the patience and interest in hearing my mathematical ramblings, and for the exciting discussions about Borwein's sums/integrals and problems alike;
+%     %
+%     Renato Lopes, for the interesting conversations about probability theory;
+%     %
+%     João Bosco, for the end of class discussions about subtleties in some results from vector and complex calculus;
+%     %
+%     Marina Vachkovskaia, for including my ``challenge problems'' at the end of the lists of exercises, and making them worth bonus points for the solvers.
+%     %
+%     Thank you all, for the pleasant time spent together at UNICAMP.
+    
+%     I would like to acknowledge all the professors of \textit{École Polytechnique} and UNICAMP that contributed to my formation, specially the professors Philippe, Cândido, Clemente, Amorim, Violaro, Romis, Firer, Leo Pini, Alim, Mosna, Kleber, Gustavo, Max, Yaro, Pagan.
+    
+%     Further, I want to thank my friends and colleagues of the WissTek and surrounding labs for the pleasant times spent together, specifically Rafa, André, Tejerina, Diana, Byron, Rubem, Pedro, Fernando, Carlos, Francisco, Reginaldo, Yalena, Alessandro, Lucas, Cintia.
+    
+%     In addition, I would like to express my gratitude to Christine Fricker, which taught me much about mathematical writing; Christine checked every proof I wrote, provided feedback, and gave support during my internship at INRIA.
+%     %
+%     I would also like to include Danielle Tibi in this acknowledgement. Without Christine and Danielle it would not be possible to publish a result on the classical problem \textit{join the shortest queue}.
+    
+%     Further, I would like to thank my family, specially my aunt Iara. I also want to thank my friends Dani, Rique, Shiba, Tay, Marcos, Zé, Zé Cazarin, Gleison, Lionis, Gabes, Gaby, Carol, Caio, TioBacca, Allan, Gui, Nec, Luiz, Pudim, and Blanco that, through our Discord server \textit{Planilha is always an option}, kept me sane during the COVID-19 pandemic.
+    
+%     Finally, I would like to thank The São Paulo Research Foundation (FAPESP), which provided financial support to this research project through the grant 2017/21347-0.
+% \end{agradecimentos}
+% ---
+
+% --- Ep\'{\i}grafe  ---
+\begin{epigrafe}
+    \vspace*{\fill}
+    \chapterquote{%
+    Le savant n'étudie pas la nature parce que cela est utile;\\
+    il l'étudie parce qu'il y prend plaisir\\[.4ex]
+    et il y prend plaisir parce qu'elle est belle.}%
+    {-- Henri Poincaré, \textit{Science et méthode} (1908)}
+    
+    \chapterquote{%
+    \small The scientist does not study nature because it is useful to do so.\\[.25ex]
+    He studies it because he takes pleasure in it,\\[.1ex]
+    and he takes pleasure in it because it is beautiful.}%
+    {-- Henri Poincaré, \textit{Science and method} (1908)}
+\end{epigrafe}
+% ---
+
+% --- RESUMOS (em portugu\^{e}s e ingl\^{e}s ---
+
+\begin{resumo}
+    In this thesis, we present a contribution to the area of wireless networks under random-access and limited by interference.
+    %
+    The first part of the manuscript introduces the necessary mathematical theory and, then, we state classical results on stochastic geometry and wireless networks.
+    %
+    The second part of the manuscript presents the network model used throughout the thesis.
+    %
+    Then, we present the contributions, which consist in fundamental studies related to understanding the limits and the behavior of this class of systems.
+    %
+    More specifically, we characterize, through some transmission success probability models, the distribution of the interference in a channel where packets are transmitted according to a Poisson process; 
+    %
+    we prove that the optimal random-access retransmission approach is to limit the maximum number of retransmissions to the smallest value that satisfies some constraint (such as throughput, traffic, or transmission/packet success probability) in a scenario where only the most recent packet matters;
+    %
+    we find closed form expressions to the stability region, transmission success probability and mean delay in a high-mobility Poisson network with $N$ different classes of users sharing the same channel;
+    %
+    using the aforementioned model we show that for $N=2$ classes of users, performing frequency bandwidth partition for one of the classes may improve the overall performance of the system;
+    %
+    we find an example in a commonly used Poisson network model for which the stationary distribution is not unique. Then, we provide sufficient conditions to guarantee unicity of the stationary in this Poisson network model assuming any path loss model and any distribution of link distances.
+    \vspace{\onelineskip}
+
+    \noindent\textbf{Keywords}: Wireless communication system, stochastic geometry, queueing theory.
+
+    \vspace{\onelineskip}
+    \vspace{\onelineskip}
+    \newpage
+    
+    \begin{otherlanguage*}{brazil}
+    \begin{center}{\ABNTEXchapterfont\huge Resumo}\end{center}
+    Nesta tese, apresentamos contribuições para a área de sistemas de comunicação sem fio que utilizam acesso aleatório e são limitadas por interferência.
+    %
+    A primeira parte do texto introduz a teoria matemática necessária e, em seguida, enunciamos resultados clássicos da literatura de geometria estocástica e redes de comunicação sem fio.
+    %
+    A segunda parte do texto apresenta o modelo de rede que é utilizado no restante da tese.
+    %
+    Em seguida, apresentamos as contribuições, que constituem-se de estudos fundamentais relacionados à compreensão dos limites e do comportamento dessa classe de sistemas.
+    %
+    Mais especificamente, caracterizamos, através de alguns modelos de probabilidade de sucesso de transmissão, a distribuição da interferência em um canal onde os pacotes são transmitidos de acordo com um processo de Poisson.
+    %
+    Provamos que a abordagem de retransmissão de acesso aleatório ótima é limitar o número máximo de retransmissões ao menor valor que satisfaça alguma restrição (como taxa de transferência, tráfego ou probabilidade de sucesso de transmissão) em um cenário onde apenas o pacote mais recente importa;
+    %
+    encontramos expressões em forma fechada para a região de estabilidade, probabilidade de sucesso de transmissão e atraso médio em uma rede Poisson de alta mobilidade com $N$ classes diferentes de usuários compartilhando o mesmo canal;
+    %
+    usando o modelo anterior, mostramos que para $ N = 2 $ classes de usuários, realizar a partição da largura de banda de frequência para uma das classes pode melhorar o desempenho do sistema;
+    %
+    encontramos um exemplo em um modelo de rede de Poisson comumente utilizado para o qual a distribuição estacionária não é única. Em seguida, fornecemos condições suficientes para garantir a unicidade do estacionário neste modelo de rede de Poisson assumindo qualquer modelo de perda de percurso e qualquer distribuição de distâncias de enlace.
+    \vspace{\onelineskip}
+
+    \noindent\textbf{Palavras-chave}: Sistema de comunicação sem fio, geometria estocástica, teoria de filas.
+
+    \end{otherlanguage*}
+\end{resumo}
+% ---
+
+
+\begin{center}
+    \noindent{\Huge List of Symbols}
+\end{center}
+\vspace{1cm}
+% \vspace*{\fill}
+% \noindent{\Huge List of Symbols}
+% \vspace*{\fill}
+
+\noindent
+\begin{tabular}{l c l}
+    $\N$        & \sep & Set of natural numbers: $\N = \{0,1,2,\dots\}$.\\
+    $\Z$        & \sep & Set of integers.\\
+    $\R$        & \sep & Set of real numbers.\\
+    $\overline\R$   & \sep & The extended real line, i.e., $\overline\R = \R\cup\{-\infty,+\infty\}$.\\
+    $\R^d$      & \sep & $d$-dimensional Euclidean space.\\
+    $\C$        & \sep & Set of complex numbers.\\
+    $\K^*$      & \sep & Set $\K$ without the null element: $\K^* = \K\backslash\{0\}$.\\
+    $\K_+$      & \sep & Ordered set $\K$ without the negative elements: $\K_+ = \{x \in \K : x \ge 0\}$.\\
+    $\P(\cdot)$        & \sep & Probability measure.\\
+    $\delta_x(\cdot)$  & \sep & Dirac measure of set $\cdot$, equals $1$ if $x\in\cdot$ and $0$ otherwise.\\
+    $\mu(\cdot)$       & \sep & Notation for a measure. If not specified, $\mu$ is the Lebesgue measure.\\
+    $\Phi(\cdot)$      & \sep & Random measure or point process.\\
+    $\E[\cdot]$ & \sep & Expected value operator.\\
+    $|\cdot|$   & \sep & Modulus operator if $\cdot$ is a number, and cardinality if $\cdot$ is a set.\\
+    $||\cdot||$ & \sep & Euclidean norm.\\
+    $\ind_{A}(\cdot)$  & \sep & Indicator function of set $A$, equals $1$ if $\cdot\in A$ and $0$ otherwise.\\
+    $\ind\!\left\{\cdot\right\}$  & \sep & Another form of the indicator function, equals $1$ if $\cdot$ is true and $0$ otherwise.\\
+    $f\vert_A$      & \sep & Restriction of function $f$ by a smaller domain $A$.\\
+    $\iu$       & \sep & Imaginary unit $\sqrt{-1}$.\\
+    $\euler$    & \sep & Euler's number $2.71828\dots$\\
+    $\pi$       & \sep & Pi number $3.14159\dots$\\
+    $\equiv$    & \sep & Identical equality of functions.\\
+    $\triangleq$ & \sep & Equal, by definition.\\
+\end{tabular}
+\cleardoublepage
+
+
+% --- inserir o sumario ---
+\renewcommand*{\cftchapterleader}{\hfill}
+\settocdepth{section}
+%
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+\clearpage
+% \addtocontents{toc}{~\hfill\textbf{Page}\par}
+% ---
+
+% % --- inserir lista de ilustra\c{c}\~{o}es ---
+% \pdfbookmark[0]{\listfigurename}{lof}
+% \listoffigures*
+% \cleardoublepage
+% % ---
+
+% % --- inserir lista de tabelas ---
+% \pdfbookmark[0]{\listtablename}{lot}
+% \listoftables*
+% \cleardoublepage
+% % ---
+
+% % --- inserir lista de Acronimos e Abrevia\c{c}\~{o}es ---
+% \renewcommand{\nomname}{Lista de Acr\^{o}nimos e Abrevia\c{c}\~{o}es}
+% \pdfbookmark[0]{\nomname}{las}
+% \printnomenclature
+% \cleardoublepage
+% % ---
+
+% \begin{simbolos}
+% \item[$ \Gamma $] Letra grega Gama
+% \item[$ \Lambda $] Lambda
+% \item[$ \zeta $] Letra grega minúscula zeta
+% \item[$ \in $] Pertence
+% \end{simbolos}
+
+\pagenumbering{arabic}
+
+\setlength{\abovedisplayskip}{6pt}
+\setlength{\abovedisplayshortskip}{6pt}
+\setlength{\belowdisplayskip}{6pt}
+\setlength{\belowdisplayshortskip}{6pt}
+
+% ---- ELEMENTOS TEXTUAIS ----
+\textual
+
+% ---- Chapters ----
+\setcounter{page}{14}
+\part{Preliminaries}
+
+\chapter{Introduction}
+\label{cap:P1_01} \thispagestyle{empty}
+\def\printfig{1} % Cap. 1
+\input{P1_01}
+
+\chapter{Mathematical Preliminaries}
+\label{cap:P1_02} \thispagestyle{empty}
+\def\printfig{1} % Cap. 2
+\input{P1_02}
+
+\chapter{Stochastic Geometry and Wireless Networks}
+\label{cap:P1_03} \thispagestyle{empty}
+\def\printfig{1} % Cap. 3
+\input{P1_03}
+
+% ---- ---- ---- ---- ----
+\part{Spatio-temporal Analysis of Interference Networks}
+
+\chapter{A General Network System Model}
+\label{cap:P2_00} \thispagestyle{empty}
+\def\printfig{1} % Cap. 4
+\input{P2_00}
+
+\chapter{Interference in a Random Access Network}
+\label{cap:P2_01} \thispagestyle{empty}
+\def\printfig{1} % Cap. 5
+\input{P2_01}
+
+\chapter{Including Retransmission}
+\label{cap:P2_02} \thispagestyle{empty}
+\def\printfig{1} % Cap. 6
+\input{P2_02}
+
+\chapter{Including Spatial Positions}
+\label{cap:P2_03} \thispagestyle{empty}
+\def\printfig{1} % Cap. 7
+\input{P2_03}
+
+\chapter{Including Static Elements}
+\label{cap:P2_04} \thispagestyle{empty}
+\def\printfig{1} % Cap. 8
+\input{P2_04}
+
+% ---- ---- ---- ---- ----
+\part{Conclusions, References and Appendices}
+
+% --- Finaliza a parte no bookmark do PDF, para que se inicie o bookmark na raiz ---
+\bookmarksetup{startatroot}%
+% ---
+
+\chapter{Conclusions and Perspectives}
+\label{cap:P3_01} \thispagestyle{empty}
+\input{P3_01}
+
+% --- Conclus\~{a}o ---
+% \chapter*[Conclus\~{a}o]{Conclus\~{a}o}
+% \addcontentsline{toc}{chapter}{Conclus\~{a}o}
+% \lipsum[1-5]
+
+% ---- ELEMENTOS P\'{O}S-TEXTUAIS ----
+\postextual
+
+% ---- Refer\^{e}ncias bibliogr\'{a}ficas ----
+\bibliography{dissertacao}
+
+% ---- Ap\^{e}ndices ----
+
+% ---
+% Inicia os ap\^{e}ndices
+% ---
+\begin{apendicesenv}
+%
+\include{Appendix}
+%
+\end{apendicesenv}
+% ---
+
+% ---- Anexos ----
+
+% ---
+% Inicia os anexos - opcional
+% ---
+% \begin{anexosenv}
+
+% % Imprime uma p\'{a}gina indicando o in\'{\i}cio dos anexos
+% \partanexos
+
+% % ---
+% \chapter{Morbi ultrices rutrum lorem.}
+% % ---
+
+% \end{anexosenv}
+
+% ---- INDICE REMISSIVO ----
+% \printindex
+
+\end{document} 

@@ -1,0 +1,462 @@
+\chapterquote{%
+Remember that all models are wrong;\\[0.0ex] the practical question is how wrong\\[0.4ex] do they have to be to not be useful.}
+{-- George E. P. Box, \textit{Empirical Model-Building and Response Surfaces} (1987)}
+
+Now we present more notations and propose a general system model for random access wireless networks.
+%
+The main purpose of this model is to establish a common basis for all networks studied in this thesis and provide rigorous definitions for the following network metrics: throughput, traffic, transmission and packet success probability, and queueing load.
+%
+Then, we can make connections among different system models with varied architectures, such as synchronous and asynchronous scenarios, finite and infinite number of nodes, homogeneous and in-homogeneous networks.
+
+All in all, we proposed a model that covered all scenarios studied in this manuscript while keeping in mind the following aspects: minimize the number of parameters, be a flexible model, and use a coherent, comprehensible, and compact notation.
+%
+All of these aspects are concurrent, so we hope to have attained a reasonable balance among them.
+
+\newpage
+
+% % % % % % % % % % % % % % 
+\section{System Model Definition} \label{sec:SysModDef}
+
+% Let the transmission time for every packet of the network be given by $\tau>0$.
+% %
+% Once we fix $\tau$, we can assume without loss of generality that $\tau = 1$ unit of time.
+% %
+% Note this can be easily generalized to differ for each pair of transmitter and receiver.
+%
+Let the set $\T\subset\overline\R$ be the analyzed period of time, e.g. $\R_+$ in asynchronous scenarios and $\N$ when time is slotted.
+%
+Let the \textit{countable} sets $\cal{N}_\TX$ and $\cal{N}_\RX$ represent the set of transmitters and receivers, respectively. Then, we define the set of links as $\cal{L} \triangleq \cal{N}_\TX \times \cal{N}_\RX$.
+%
+Let $\S\subset \R^d$ be the analyzed region of the space where the network nodes are located.
+%
+Let $(\T,\cal{B}(\T),\mu_\T)$ and $(\S,\cal{B}(\S),\mu_\S)$ be \textit{measure spaces}. We assume all functions defined in the sequence are \textit{measurable}. % with respect to adequate \textit{measure spaces} equipped with a Borel $\sigma$-algebra.
+
+\begin{remark}
+    Usually, for an unslotted asynchronous network we choose $\T = \R_+$ and $\mu_\T$ as the Lebesgue measure on $\R$, i.e., it measures the length of a set. For example, for $a<b$, $\mu_\T([a,b]) = b-a$.
+    %
+    On the other hand, for a slotted synchronous network we usually choose $\T = \N$ and $\mu_\T$ as the counting measure, i.e., it counts the number of elements in a set. For example, $\mu_\T(\{2,5,8,9\}) = 4$.
+    
+    Regarding the measure $\mu_\S$, we almost always adopt the Lebesgue measure. Then, if $\S=\R^2$, $\mu_\S$ measures area; if $\S=\R^3$, $\mu_\S$ measures volume.
+    %
+    For example, the volume of the $d$-dimensional sphere of radius $1$ is given by
+    \[\mu_\S(\{x\in\R^d: ||x||<1\}) = \frac{\pi^{d/2}}{\Gamma(\frac{d}{2} + 1)},\]
+    %
+    where $\Gamma$ is the gamma function.
+    %
+    The set $\S$ usually is the entire $\R^2$ plane, however, it is also common to choose a finite subset of $\R^2$, e.g. a circle of radius $r>0$. In this case $\S = \{x\in\R^2: ||x|| < r\}$ could represent the area covered by a base station.
+\end{remark}
+
+At time $t\in\T$, let $i\in\cal{N}_\TX$ be a transmitter and $j\in\cal{N}_\RX$ be a receiver, then we denote%
+\begin{itemize}[itemsep=3pt,parsep=3pt,topsep=3pt,partopsep=3pt]
+    % \item $\Phi_{\TX}(t)$ or $\{X_k(t)\}_{k\in \cal{N}_\TX} \subset \S$ the positions of the transmitters.
+    % \item $\Phi_{\RX}(t)$ or $\{Y_k(t)\}_{k\in \cal{N}_\RX} \subset \S$ the positions of the receivers.
+    \item $X_i(t) \in \S$ the position of transmitter $i$.
+    \item $Y_j(t) \in \S$ the position of receiver $j$.
+    \item $R_{ij}(t) \triangleq ||X_i(t) - Y_j(t)||\in\R_+$ the distance between $i$ and $j$.
+    \item $\zeta_{ij}(t)\in\{0,1\}$ whether the link between $i$ and $j$ is active.
+    \item $H_{ij}(t) \in \R_+$ the small scale fading\footnote{Some examples of fading models are Rayleigh, Nakagami-$m$, One-sided Gaussian, and Ricean distributions. A generalization of the aforementioned fading models was proposed in \cite{yacoub2007alpha,yacoub2007kappa}, namely the $\kappa$--$\mu$, $\eta$--$\mu$ and $\alpha$--$\mu$ distributions.} and shadowing coefficient of the signal from $i$ to $j$.
+    \item $P_{ij}(t) \in \R_+$ the transmit power of the $i$th transmitter to the $j$th receiver.
+    \item $\ell:\R_+\longrightarrow\R_+$ the omnidirectional path loss model\footnote{Some examples of path loss models are $\ell(r) = (A_0 \max\{r_0,r\})^{-\alpha}$, $\ell(r) = (1 + A_0 r)^{-\alpha}$ and $\ell(r) = (A_0 r)^{-\alpha}$, for $A_0>0$, $r_0>0$ and $\alpha>2$, where $\alpha$ is called the path loss exponent. The last one must be used with care due to the singularity at $r=0$. Note that all these models are asymptotically equivalent as $r\to\infty$.}.
+    \item $\mathscr{S}:(\T\to\R_+)\longrightarrow\{0,1\}$ the transmission success probability model.
+    \item $\tau_{ij}\in\R_+$ the transmission time of a packet from $i$ to $j$.
+    \item $Q_{ij}(t)\in\N$ the number of queued packets in the buffer of transmitter $i$ for receiver $j$.
+    \item $A_{ij} \subset \T$ the set of times for which a packet that arrives in $i$ will be transmitted to $j$.
+    \item $T_{ij}\subset \T$ the set of times for which $i$ is allowed to start a transmission for $j$. % (gained channel access).
+    \item $T_{ij}^*\subset T_{ij}$ the set of times for which $i$ starts a transmission for $j$.
+\end{itemize}
+
+Since we are dealing with interference limited networks, we define the \textit{signal-to-interference} ratio ($\SIR$) as follows\footnote{This definition is easily extensible to \textit{signal-to-interference-plus-noise} ($\mathrm{SINR}$) ratio.}.
+
+\begin{definition}[\bm{$\SIR$}] \label{eq:SIR}
+    At time $t\in\T$, the \textit{signal-to-interference} ratio at the receiver $j\in\cal{N}_\RX$ receiving a transmission from transmitter $i\in\cal{N}_\TX$ is defined as
+    \begin{align*}
+        \SIR_{ij}(t) \triangleq \zeta_{ij}(t)\,\frac{P_{ij}(t) H_{ij}(t)\, \ell(R_{ij}(t))}{I_{ij}(t)},
+    \end{align*}
+    with the convention $0/0 = 0$ and $1/0 = \infty$,
+    %
+    where $I_{ij}(t)$ is the aggregate interference received by $j$ while receiving a transmission from $i$ and is given by
+    \begin{align*}
+        I_{ij}(t) \triangleq \sum_{k\in\cal{N_\TX}\backslash\{i\}} \sum_{n\in\cal{N_\RX}\backslash\{j\}} \zeta_{kn}(t) P_{kn}(t) H_{kj}(t) \, \ell(R_{kj}(t)).
+    \end{align*}
+\end{definition}
+
+It is worth noting that we are assuming that the propagation delay is negligible for tractability reasons.
+%
+However, this can be considered through a modification in the argument of the functions to e.g. $t-\Delta t$, where $\Delta t$ depends on the propagation distance.
+
+To decide whether a given packet transmission is successful, we use the functional $\mathscr{S}$ which takes values on $\{0,1\}$ and receives as argument the $\SIR$ during the transmission of a packet.
+%
+Let $1$ represent success and $0$ represent failure.
+
+\begin{remark}
+    To input the correct argument in the functional $\mathscr{S}$ we need to constraint the domain of the $\SIR:\T\longrightarrow\R_+$ to the time for which a transmission occurs, for that we use the notation $\SIR\vert_T:T\longrightarrow\R_+$, which restricts the domain of $\SIR$ to $T$, where $T\subset\T$ is the set of times for which the transmission occurred.
+\end{remark}
+
+\begin{example}
+Some examples of valid functionals $\mathscr{S}$ follows.
+\begin{itemize}[itemsep=3pt,parsep=3pt,topsep=3pt,partopsep=3pt]
+    \item Let $\T=\R_+$. Consider the model where the packet is successfully transmitted if and only if the $\SIR$ is above a given threshold $\theta$ at all times during the transmission. The functional that represents this rule is given by
+    \begin{align*}
+        \mathscr{S}(\SIR) = \ind_{(\theta,\infty]}\!\left(\inf \SIR\right).
+    \end{align*}
+    
+    \item Consider the model where the packet is successfully transmitted if and only if the integral of the $\SIR$ with respect to the measure $\mu_\T$ is above a threshold $\theta$. Then
+    \begin{align*}
+        \mathscr{S}(\SIR) = \ind_{(\theta,\infty]}\!\left( \int \SIR\,\d\mu_\T \right). % \quad T = [0,\tau)\cap\T.
+    \end{align*}
+    
+    \item From the above example, if $\T=\N$, $\tau=1$, and $\mu_\T$ is the counting measure, we recover the \textit{capture model}, where the packet is successfully received if $\SIR(t) > \theta$.
+    
+    \item Using again the same example, if we choose $\T=\R_+$ and $\mu_\T$ as the Lebesgue measure, we have a model where the packet is successfully received if the integral of the $\SIR$ is greater than $\theta$.
+\end{itemize}
+\end{example}
+
+The functions $\zeta$, which represents the active links, and $Q$, which represents the number of queued packets, heavily depend on the adopted network protocols, so it is hard to define a general and simple equation for them.
+%
+However, below we provide an example that covers some standard scenarios.
+
+\begin{example}
+    Let the function $\zeta$ be given by
+    \begin{align*}
+        \zeta_{ij}(t) \triangleq \ind\{t\in T_{ij}^*\oplus[0,\tau_{ij})\}, \quad t\in\T, i\in\cal{N}_\TX, j\in\cal{N}_\RX,
+    \end{align*}
+    where $T_{ij}^* \triangleq \{t\in T_{ij}: Q_{ij}(t)>0\}$ and the operator $\oplus$ denotes set addition and is defined as $U\oplus V \triangleq \{u+v : u\in U, v\in V\}$.
+    %
+    The above equation says that the link between $i$ and $j$ is active if the corresponding queue is non-empty and the link has gained medium access. % and there is no other active link for that transmitter.
+    %
+    Note that $\zeta$ can be generalized to vanish when some other conditions are met.
+    %
+    For example, in a carrier-sensing multiple-access (CSMA) scheme we can use an indicator function that vanishes when there is another active transmitter nearby.
+    %
+    Another example is to limit the transmitters to transmit to a single receiver at a time.
+    
+    Let the number of queued packets for receiver $j\in\cal{N}_\RX$ on the queue of transmitter $i\in\cal{N}_\TX$ be given by
+    \begin{align*}
+        Q_{ij}(t) \triangleq \sum_{t_a\in A_{ij}} \ind\{t_a < t\} - \sum_{t^*\in T_{ij}^*} \ind\{t^* < t-\tau_{ij}\}\,\mathscr{S}(\SIR_{ij}\vert_{[t^*,t^*+\tau_{ij})}) , \quad t\in\T,
+    \end{align*}
+    % where $D_{ij}(t)$ is the number of successfully transmitted packets from $i$ to $j$ until time $t$,
+    % \begin{align*}
+    %     D_{ij}(t) \triangleq \sum_{t^* \in T_{ij}}\,\ind\{t^* < t-\tau_{ij}\} \ind\{Q_{ij}(t^*) > 0\}\,\mathscr{S}(\SIR_{ij}\vert_{[t^*,t^*+\tau_{ij})}).
+    % \end{align*}
+    The term $\mathscr{S}(\SIR_{ij}\vert_{[t^*,t^*+\tau_{ij})})$ verifies whether the $\SIR$ in $[t^*,t^*+\tau)$ is enough for a successful packet transmission, and the set $A_{ij}$ contains the time arrivals of the packets. 
+    % Each $t^*\in T_{ij}$ is a time for which transmitter $i$ gained access to transmit a packet for receiver $j$.
+    Then, we count all the successful transmissions that happened before $t-\tau_{ij}$, because we do not know if packets that started being transmitted after $t-\tau_{ij}$ are successful given the information until time $t$.
+    %
+    % Note that $Q$ depends on $\zeta$ and vice versa. But, this is not a problem because $Q$ depends only on past values of $\zeta$.
+\end{example}
+
+Now let us introduce the source of the network model randomness.
+%
+Let $(\Omega,\cal F, \P)$ be a \textit{probability space} and let each one of the aforementioned functions (except $\ell$ and $\mathscr{S}$) in this chapter also depend on the outcome $\omega\in\Omega$, e.g. $\SIR(t) = \SIR(\omega;t)$.
+%
+Therefore, these functions are not only \textit{measurable functions}, they are random variables as well.
+%
+However, as usual, we omit the dependence on the outcome $\omega$.
+
+\begin{note}
+    The reader that is not interested in mathematical details and formal definitions can skip to Section~\ref{sec:poisson_network}.
+\end{note}
+
+For the \textit{probability space} $(\Omega,\cal F, \P)$, let $\Phi_\TX(t)\stackrel{*}{=}\{X_k(t)\}_{k}$ and $\Phi_\RX(t)\stackrel{*}{=}\{Y_k(t)\}_{k}$ be point processes\footnote{Let us be wary of the misleading notation, because we usually do not write the dependence of a point process on the space nor on the outcome. Indeed, we have that $\Phi_\TX,\Phi_\RX: \Omega\times\S\times\T\longrightarrow \N$.} on $\S$ for each $t\in\T$.
+%
+Let $\{H_{ij}(t)\}_t$ be a stochastic process on state space $\R_+$ and index space $\T$ for each $i\in\cal{N}_\TX$ and $j\in\cal{N}_\TX$.
+%
+Let $A_{ij}$ and $T_{ij}$ be point processes on $\T$ for each $i\in\cal{N}_\TX$ and $j\in\cal{N}_\TX$, and $T_{ij}^*$ be a \textit{thinning} of $T_{ij}$.
+%
+
+Now we can define some important network metrics such as mean transmission success probability, traffic, and throughput.
+%
+Note that we cannot simply sum some quantities and divide by others when we have $\mu_\T(\T) = \infty$ or $\mu_\S(\S) = \infty$ (for example, $\T=\R$ or
+$\S=\R^2$), because we may end up with an indetermination of the kind $\infty/\infty$. That is why we need the following sequences of sets.
+%
+Let $\{\T_k\}_{k\in\N}$ be an increasing sequence of $\mu_\T$-finite sets that converges to $\T$, i.e., $\T_k\subset\T_{k+1}\subset\T$ and $\mu_\T(\T_k)<\infty$ for all $k\in\N$, and see Remark~\ref{rem:set_convergence}. Let $\{\S_n\}_{n\in\N}$ be an increasing sequence of $\mu_\S$-finite sets that converges to $\S$. Let $\{\cal{L}_n\}_{n\in\N}$ be an increasing sequence of finite sets that converges to $\cal{L}$.
+%
+Then, we can use these sequences of sets to avoid indeterminations.
+
+\begin{remark} \label{rem:set_convergence}
+    A sequence of sets $\{A_n\}_{n\in\N}$ is said to converge to set $A$ if and only if $\liminf_n A_n = \limsup_n A_n = A$, where
+    \begin{align*}
+        \liminf_{n\to\infty} A_n = \bigcup_{n\ge 1} \bigcap_{j\ge n} A_j, \quad
+        \limsup_{n\to\infty} A_n = \bigcap_{n\ge 1} \bigcup_{j\ge n} A_j.
+    \end{align*}
+\end{remark}
+ 
+Now we can define the mean transmission success probability.
+\begin{definition}[\textbf{Transmission success probability}]
+    % The mean transmission success probability from $i\in\cal{N}_\TX$ to $j\in\cal{N}_\RX$ is defined as
+    % \begin{align*}
+    %     p_{s,ij} \triangleq \lim_{k\to\infty} \E\!\left[ \frac
+    %     {\displaystyle\sum_{t^*\in T_{ij}^*}\ind_{\T_k}(t^*) \, \mathscr{S}(\SIR_{ij}\vert_{[t^*,t^*+\tau_{ij})})}
+    %     {\displaystyle\sum_{t^*\in T_{ij}^*}\ind_{\T_k}(t^*) }\right]
+    % \end{align*}
+    % with the convention $0/0=0$.
+    The mean transmission success probability of the set of links $L\subset\cal{L}$ is defined as
+    \begin{align*}
+        p_{s,L} \triangleq \lim_{\substack{n\to\infty\\k \to \infty}} \E\!\left[ \frac
+        {\displaystyle \sum_{(i,j)\in\cal{L}_n\cap L} \sum_{t^*\in T_{ij}^*} \ind_{\T_k}\!(t^*) \, \mathscr{S}(\SIR_{ij}\vert_{[t^*,t^*+\tau_{ij})})}
+        {\displaystyle \sum_{(i,j)\in\cal{L}_n\cap L} \sum_{t^*\in T_{ij}^*}\ind_{\T_k}\!(t^*)}\right],
+    \end{align*}
+    with the convention $0/0=0$.
+    
+    The mean transmission success probability of the network is denoted as $p_s \triangleq p_{s,\cal{L}}$.
+\end{definition}
+
+Despite the cumbersome notation, the above definition simply counts the number of successful transmissions and divides by the total number of transmissions in such a way we do not get the indetermination $\infty/\infty$.
+%
+The term $\ind_{\T_k}\!(t^*)$ represents if a transmission happened in $\T_k$ and the term $\mathscr{S}(\SIR_{ij}\vert_{[t^*,t^*+\tau_{ij})})$ represents if it was successful.
+%
+Also, we used $\E[\cdot/\cdot]$ instead of $\E[\cdot]/\E[\cdot]$ because we want to weigh on the network realizations instead of on the number of transmissions of the network realizations.
+
+\begin{definition}[\textbf{Packet success probability}]
+    The mean packet success probability of the set of links $L\subset\cal{L}$ is defined as
+    \begin{align*}
+        p_{p,L} \triangleq \lim_{\substack{n\to\infty\\k \to \infty}} \E\!\left[ \frac
+        {\displaystyle \sum_{(i,j)\in\cal{L}_n\cap L} \sum_{t^*\in T_{ij}^*} \ind_{\T_k}\!(t^*) \, \mathscr{S}(\SIR_{ij}\vert_{[t^*,t^*+\tau_{ij})})}
+        {\displaystyle \sum_{(i,j)\in\cal{L}_n\cap L} \sum_{t_a\in A_{ij}}\ind_{\T_k}\!(t_a)}\right],
+    \end{align*}
+    with the convention $0/0=0$.
+    
+    The mean transmission success probability of the network is denoted as $p_p \triangleq p_{p,\cal{L}}$.
+\end{definition}
+
+Note that the mean transmission success probability $p_s$ is different from the mean packet success probability $p_p$. The former is relative to the number of transmissions, while the latter is relative to the number of generated packets.
+
+
+\begin{definition}[\textbf{Traffic}] \label{def:traffic}
+    % The traffic (of packets per unit of time) between the link formed by transmitter $i\in\cal{N}_\TX$ and receiver $j\in\cal{N}_\RX$ is defined as
+    % \begin{align*}
+    %     \lambda_{ij} \triangleq \lim_{k \to \infty} \frac{1}{\mu_\T(\T_k)}\,\E\!\left[  \sum_{t^*\in T_{ij}^*} \ind_{\T_k}\!(t^*)
+    %     \right].
+    % \end{align*}
+    % The traffic of the network is defined as
+    % \begin{align*}
+    %     \lambda \triangleq \lim_{n\to\infty} \lim_{k \to \infty} \frac{1}{\mu_\T(\T_k)\mu_\S(\S_n)} \E\!\left[  \sum_{(i,j)\in\cal{L}}\sum_{t^*\in T_{ij}^*} \ind_{\S_n}\!(X_i(t^*))\,\ind_{\S_n}\!(Y_j(t^*))\, \ind_{\T_k}\!(t^*) \right].
+    % \end{align*}
+    %
+    We define the (spatio-temporal) occupation rate of the channel by the set of links $L\subset\cal{L}$ as
+    \begin{align*}
+        \upsilon_L \triangleq \lim_{\substack{n\to\infty\\k \to \infty}} \frac{1}{\mu_\T(\T_k)\mu_\S(\S_n)} \E\!\left[  \sum_{(i,j)\in{L}}\sum_{t^*\in T_{ij}^*} \tau_{ij} \ind_{\S_n}\!(X_i(t^*))\,\ind_{\S_n}\!(Y_j(t^*))\, \ind_{\T_k}\!(t^*) \right].
+    \end{align*}
+
+    The network occupation rate of the channel is denoted as $\upsilon \triangleq \upsilon_\cal{L}$.
+\end{definition}
+
+Analogously to what the term $\ind_{\T_k}\!(t^*)$ does for time, the terms $\ind_{\S_n}\!(X_i(t^*))$ and $\ind_{\S_n}\!(Y_j(t^*))$ do for space, i.e., they represent if transmitter $i$ and receiver $j$ are located within $\S_n$, respectively.
+
+In this manuscript, we also use the term \textit{traffic} to designate the rate of packet transmissions per unit of area in slotted-based systems with discrete $\T$ and transmission time $\tau = 1$.
+%
+However, we only do that when the numerical value coincides with Definition~\ref{def:traffic}.
+
+\begin{note}
+    The calculation $\displaystyle\lim_{k\to\infty}\frac{1}{\mu_\T(\T_k)} \int_{\T_k} f(x) \,\d\mu_\T(x)$ represents a general form of the well known temporal average $\displaystyle\lim_{t\to\infty}\frac{1}{t} \int_0^t f(x) \,\d x$.
+    %
+    It is more general because is valid for slotted (discrete) systems, we can extend to $-\infty$ without changing the equation, and it can be used in bounded periods of time. Beyond being more general, we also chose to adopt this to keep a uniform notation, i.e., we do the same for the spatial average over $\S$ which could correspond to any region of the space (finite or infinite).
+\end{note}
+
+% We consider the \textit{packet model}, where the throughput on a link is measured in packets per unit of time.
+% %
+% However, this can be easily modified to take into account the data contained in each packet.
+% %
+% The definition follows.
+
+
+\begin{definition}[\textbf{Throughput}] \label{def:throughput}
+    The (spatial) throughput of the set of links $L\subset\cal{L}$ is
+    \begin{align*}
+        \mathscr{T}_L \triangleq \lim_{\substack{n\to\infty\\k \to \infty}} \frac{1}{\mu_\T(\T_k)\mu_\S(\S_n)} \E\!\left[  \sum_{(i,j)\in{L}}\sum_{t^*\in T_{ij}^*} \tau_{ij} \ind_{\S_n}\!(X_i(t^*))\,\ind_{\S_n}\!(Y_j(t^*))\, \ind_{\T_k}\!(t^*)\,\mathscr{S}(\SIR_{ij}\vert_{[t^*,t^*+\tau_{ij})}) \right].
+    \end{align*}
+    
+    The throughput of the whole network is denoted as $\mathscr{T} \triangleq \mathscr{T}_\cal{L}$.
+\end{definition}
+
+The above definition resembles Definition~\ref{def:traffic} with the sole and important difference that it only counts the successful transmissions, because it has the term $\mathscr{S}(\SIR_{ij}\vert_{[t^*,t^*+\tau_{ij})})$.
+
+
+\begin{definition}[\textbf{Queue load}]
+    The mean occupation of the queues for the set of transmitters $N_\TX\subset\cal{N}_\TX$ is given by
+    \begin{align*}
+        \rho_{N_\TX} \triangleq \lim_{\substack{n\to\infty\\k \to \infty}} \frac{1}{\mu_\T(\T_k) \left|N_\TX^{(n)}\right|} \E\!\left[  \sum_{i\in N_\TX^{(n)}} \int_{\T_k} \ind\!\left\{\max_{j\in\cal{N}_\RX} Q_{ij}(t) > 0\right\} \d\mu_\T(t) \right],
+    \end{align*}
+    where $\left\{N_\TX^{(n)}\right\}_{n\in\N}$ is a crescent sequence of finite sets that converges to $N_\TX$.
+    
+    The mean occupation of the queues for the whole network is denoted by $\rho \triangleq \rho_{\cal{N}_\TX}$.
+\end{definition}
+
+The above definition calculates the mean proportion of time the queues are not empty. The term inside the integral indicates if the queue of transmitter $i$ is not empty, then we take the average over time and over the queues of set $N_\TX$.
+%
+% The limits on $n$ and $k$ are necessary to avoid the indeterminations $\infty/\infty$.
+
+% \begin{definition}
+%     A \textit{network} is a $4$-tuple $(\T,\mathscr{N},\mathscr{G},\mathscr{Q})$, where
+%     \setlist{nolistsep}
+%     \begin{itemize}[noitemsep]
+%         \item $\mathscr{N}$ defines the set of transmitters and receivers
+%     \end{itemize}
+% \end{definition}
+
+% \begin{note}
+%     Despite the assumption of \textit{measurable} functions in the system model, certainly it is still possible to find ``pathological'' examples using this model.
+%     %
+%     However, it is out of the scope of this manuscript to analyze such cases.
+% \end{note}
+
+\section{Network Models} \label{sec:poisson_network}
+
+First of all, let us define a stationary and an ergodic network.
+%
+According to Definitions \ref{def:stationary} and \ref{def:ergodic_process} it is redundant to say ``stationary and ergodic'', because ergodicity is a special case of stationarity, i.e., ergodicity implies stationarity.
+%
+However, we found important to include both when speaking about ergodicity for clarity.
+
+The class of stochastic processes we study in this thesis are not stationary and ergodic by definition. However, as the time $t\in\T$ tends to positive infinity, then the system states probabilities, under certain conditions, converge to a probability distribution that entails stationarity and ergodicity.
+%
+Therefore, whenever we say a network system is stationary and ergodic we mean that the system state probabilities converge to a probability distribution that makes the corresponding stochastic process stationary and ergodic as time tends to positive infinity.
+%
+The formal definitions follow.
+
+\begin{definition}[\textbf{Stationary network}]
+    Let $\T=\R_+$ or $\T=\N$. A network system model is stationary if and only if for every $i\in\cal N_\TX, j\in\cal N_\RX$ the stochastic process $\{Q_{ij}(t)\}_{t\in\T}$ converges in distribution to a stationary stochastic process as $t\to\infty$ and the point processes $A_{ij}$ and $T_{ij}$ on $\T$ are also stationary.
+    
+    Then, we denote by $a_{ij} \ge 0$ the constant that satisfies $\E[A_{ij}(B)] = a_{ij} \,\mu_\T(B)$ and $p_{ij} \ge 0$ the constant that satisfies $\E[T_{ij}(B)] = p_{ij} \,\mu_\T(B)$ for every $B\in\cal{B}(\T)$.
+\end{definition}
+
+In general terms, the constant $a_{ij}$ represents the arrival rate of packets for the link $(i,j)$ and the constant $p_{ij}$ represents the medium access rate for the link $(i,j)$.
+
+\begin{definition}[\textbf{Ergodic network}]
+    Let $\T=\R_+$ or $\T=\N$. A stationary network is ergodic if and only if for every $i\in\cal N_\TX, j\in\cal N_\RX$ the stochastic process $\{Q_{ij}(t)\}_{t\in\T}$ converges in distribution to an ergodic stochastic process as $t\to\infty$ and the point processes $A_{ij}$ and $T_{ij}$ on $\T$ are also ergodic.
+\end{definition}
+
+% If the network is stationary and ergodic the equations to calculate transmission and packet success probability, traffic, throughput, and queue load simplifies significantly.
+
+Now, let us define a Poisson network, which is a network that has the stationary property across space.
+%
+\begin{definition}[\textbf{Poisson network}]
+    A Poisson network is a network that, for every $t\in\T$, the position of the transmitters $\Phi_\TX(t)$ and receivers $\Phi_\RX(t)$ follow a homogeneous Poisson point process with densities $\lambda_\TX > 0$ and $\lambda_\RX > 0$ on $\R^d$, respectively.
+\end{definition}
+
+Here an essential problem arises, which is the behavior of the point processes $\{\Phi(t)\}_{t\in\T}$ over time, which represents the user's locations over time.
+%
+Usually, we need independence across time to have ergodicity, however, that is not always the case.
+%
+The following network definition includes this desirable property.
+%
+\begin{definition}[\textbf{High-mobility/static network}]
+    A \textit{high-mobility} network is a network for which the position of the transmitters $\Phi_\TX(t)$ and receivers $\Phi_\RX(t)$ are independent across time $t\in\T$.
+    %
+    More precisely, for every finite set $\{t_i\}_{i=1}^n \subset\T$, $n\in\N$ we must have that $\{\Phi_\TX(t_i)\}_{i=1}^n$ forms a collection of independent random measures\footnote{A collection of random measures are independent if for every subset of the space, they form a collection of independent random variables.}.
+    
+    On the other hand, let $t_0\in\T$, when $\Phi_\TX(t) = \Phi_\TX(t_0)$ and $\Phi_\RX(t) = \Phi_\RX(t_0)$ for all $t\in\T$, then we say that we have a \textit{static} network.
+\end{definition}
+
+In high-mobility networks, we shall use the assumption that when a transmission starts, we consider the positions of the nodes static for calculation of the $\SIR$.
+%
+This is a reasonable assumption because usually the transmission time $\tau$ is small if compared with the rate of change of the nodes' position.
+%
+Thus, effectively, the nodes' positions will not change for every instant of time.
+
+\begin{definition}[\textbf{Bipolar network}]
+    A network is bipolar if each transmitter $i\in\cal{N}_\TX$ has a dedicated receiver $j\in\cal{N}_\RX$.
+    %
+    Then, we can represent each link transmitter-receiver $(i,j)$ by simply the index $i$ or $j$.
+    
+    In a bipolar Poisson network, we represent the density of the transmitters and receivers by the same density $\lambda > 0$.
+\end{definition}
+
+Then, for a bipolar network, instead of writing the queue size as $Q_{ij}$ we can simply write $Q_i$ because there is only one receiver for each transmitter $i$.
+%
+Note, however, that the coefficient $H_{ij}$ must still be indexed by $(i,j)$ because this random variable appears in the interference caused by transmitter $i$ on receiver $j$ and they are not linked.
+
+A commonly used network model is the stationary and ergodic Poisson network with one user class, which means that we have stationarity across users, i.e., the random variables associated with each user follow the same distribution across the index of users.
+%
+If we further assume that the shot-noise process related to the aggregate interference is stationary across space, then the transmission success probability is the same for all users and it is --\textit{ceteris paribus}-- a  function of the network traffic $\upsilon$, in the sense that for a given system model we can determine the transmission success probability $p_s$ (as defined in Definition~\ref{def:traffic}) only knowing the network \textit{traffic} $\upsilon$.
+%
+Further, we can show that in this scenario the network \textit{throughput} (as defined in Definition~\ref{def:throughput}) is simply given by $\mathscr{T}(\upsilon) = \upsilon\,p_s(\upsilon)$.
+%
+See Example~\ref{ex:classic_network}, for which this applies, once $\upsilon=\lambda\tau$.
+
+For this scenario, we proved the following theorem that guarantees existence and uniqueness of a \textit{traffic} that achieves the maximum \textit{throughput}. 
+
+\begin{theorem}\label{th:unique_opt}
+    Let $p_s:\R_+\longrightarrow (0,1]$ be a continuously differentiable function. Let us define the function $\psi(\upsilon) \triangleq -\upsilon \frac{\d}{\d\upsilon} \ln (p_s(\upsilon))$, $\nu\in\R_+$.
+    %
+    If $\psi$ is a monotonous increasing function and \vspace{-6mm}
+    \begin{align} \label{eq:aux_th1}
+        \lim_{\upsilon\to\infty} \psi(\upsilon) > 1,
+    \end{align}
+    then the throughput $\mathscr{T}(\upsilon) = \upsilon\,p_s(\upsilon)$ has a unique local maximum, which is a global maximum.
+\end{theorem}
+%
+\begin{proof}
+    The derivative of the throughput at $\upsilon\in\R_+$ is
+\begin{align*}
+    \mathscr{T}'(\upsilon)
+        = p_s(\upsilon) \left(1 - \upsilon \left(\frac{-p_s'(\upsilon)}{p_s(\upsilon)}
+            \right)\right) 
+        = p_s(\upsilon) \, (1-\psi(\upsilon)).
+    \end{align*}
+    Since $p_s$ is a continuously differentiable function, $\mathscr{T}'$ is a continuous function. In addition, there exists $\upsilon^*\in\R_+$ such that $\mathscr{T}'(\upsilon^*) = 0$ by the intermediate value theorem (Theorem~\ref{th:IVT}), because $\mathscr{T}'(0) = p_s(0) > 0$ and there exists a $\upsilon_0 > 0$ such that $\mathscr{T}'(\upsilon_0) < 0$, by \eqref{eq:aux_th1}.
+    %
+    Then, using that $\psi$ is a monotonous function, we have that if $\upsilon < \upsilon^*$, then $\mathscr{T}(\upsilon)$ increases monotonically. Otherwise, if $\upsilon > \upsilon^*$, then $\mathscr{T}(\upsilon)$ decreases monotonically, which concludes the proof.
+\end{proof}
+
+The above theorem can be used in any scenario that we can express the transmission success probability as a function of the traffic and packets have the same transmission time.
+
+\begin{remark}
+    Theorem~\ref{th:unique_opt} only gives a sufficient condition to the existence and uniqueness of an optimal. However, it is a ``tight'' sufficient condition, in the sense it is also a necessary condition for a family of ``smooth'' decreasing functions, which is usually the case for wireless networks.
+    
+    Take, for example, $p_s(\upsilon) = (1+\upsilon)^{-\alpha}$, $\alpha>0$. Then, $\psi(\upsilon) = \alpha\upsilon/(1+\upsilon)$, which satisfies the theorem if $\alpha>1$. In this case, if $\alpha\le 1$, the optimum does not exist, thus it is also a necessary condition.
+\end{remark}
+
+Now we present a conjecture that we are still not able to prove, which is a generalization of Theorem~\ref{th:unique_opt} for the case of several user classes and different packet transmission times.
+%
+The mathematical statement follows.
+
+\begin{conjecture} \label{conj:unique_opt}
+    Let $\bm{p}_s: \R_+^n \longrightarrow (0,1]^n$ be a continuously differentiable function.
+    %
+    Let the function
+    \begin{align*}
+        \psi_j(\bm{\upsilon}) \triangleq - \sum_{i=1}^n \upsilon_i \frac{p_{s,i}(\bm{\upsilon})}{p_{s,j}(\bm{\upsilon})} \frac{\partial}{\partial \upsilon_j} \ln(p_{s,i}(\bm{\upsilon})), \qquad \bm{\upsilon}\in\R^n, j\in\{1,2,\dots,n\},
+    \end{align*}
+    where $p_{s,j}$ and $\upsilon_j$ are the $j$th component of $\bm{p}_{s}$ and $\bm{\upsilon}$, respectively.
+    
+    If for every $j\in\{1,2,\dots,n\}$, $\psi_j(\bm{\upsilon})$ is a monotonic increasing function of $\upsilon_j$ and
+    \begin{align*}
+        \liminf_{||\bm{\upsilon}||\to\infty} \psi_j(\bm{\upsilon}) > 1,%
+    \end{align*}%
+    then the total throughput of the system $\mathscr{T}(\bm{\upsilon}) = \bm{\upsilon} \cdot \bm{p}_s(\bm{\upsilon}) \in \R_+$ has a unique local maximum, which is a global maximum.
+\end{conjecture}
+
+The conjecture is inspired in the proof of Theorem~\ref{th:unique_opt}, and it represents the case of $n$ classes of users.
+%
+Note that $p_{s,i}$ represents the success probability of the $i$th user class.
+% The $i$th user class have a success probability given by $p_{s,i}(\bm{\upsilon})$, thus the throughput of that class is $\mathscr{T}_i = \upsilon_i\,p_{s,i}(\bm{\upsilon})$.
+
+
+% \begin{proposition}
+%     Consider a stationary and ergodic Poisson network with density of users $\lambda>0$ on $\R^d$.
+%     %
+%     If we further assume stationarity and ergodicity across the users, i.e., for any random variable $\cdot_i$ that is indexed by $i\in\cal{N}_\TX$ we have that $\{\cdot_i\}_{i\in\cal{N}_\TX}$ forms a stationary and ergodic stochastic process.
+%     %
+%     Then, we have that the transmission success probability is given by
+%     \begin{align*}
+%         p_{s} &= \lim_{t\to\infty} \P(\mathscr{S}(\SIR_0\vert_{[t,t+\tau_0)}),
+%     \end{align*}
+%     where $i=0$ is a typical user of the network.
+% \end{proposition}
+
+
+% $\mathscr{A B C D E F G H I J K L M N O P Q R S T U V W X Y Z}$
+
+% $\mathcal{A B C D E F G H I J K L M N O P Q R S T U V W X Y Z}$
+
+% % % % % % % % % % % % % % 
+\section{Summary} \label{sec:summ_P2_00}
+
+In this chapter, we have proposed a general system model that covers all system models presented in this manuscript.
+%
+Then, we defined some important and general network metrics that are used throughout different models until the end of the thesis.
+%
+Further, we provided rigorous definitions for some commonly used terms for wireless networks, such as stationary, ergodic, Poisson, high-mobility, static, and bipolar.
+
+In this framework, we proved a theorem that guarantees existence and uniqueness of an optimal throughput; and presented a conjecture that is a generalization of the proved theorem.

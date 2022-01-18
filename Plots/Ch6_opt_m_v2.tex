@@ -1,0 +1,83 @@
+
+\begin{tikzpicture}[scale=0.85]
+
+\begin{axis}
+[
+  title={},
+%   width = 212.4pt,
+%   width=12cm, height=9cm,
+  legend style={at={(0.95,0.95)}, anchor=north east},
+  xlabel={$p_s$},
+  ylabel={$p_p = \mathscr{T}/\upsilon_0$}, ylabel style={rotate=0},
+%  yticklabel=\pgfmathprintnumber{\tick}\\ \%,
+  xmin = 0,
+  xmax = 1,
+  ymin = 0,
+  ymax = 1,
+%   y tick label style={
+%         /pgf/number format/.cd,
+%         fixed,
+%         fixed zerofill,
+%         precision=3,
+%         /tikz/.cd
+%   },
+%   grid = both,
+  scale only axis,
+]
+	\legend{}
+    
+    \foreach \m in {1,...,20}
+        \addplot[thick, domain=0:1, samples=100]{(1-(1-x)^(\m+1))};
+
+    % \foreach \m in {7,9,...,29}
+    %     \addplot[thick, domain=0.001:1]{(1-(1-x)^(\m+1))};
+
+    % \foreach \m in {30,40,...,100}
+    %     \addplot[thick, domain=0:1]{(1-(1-x)^(\m+1))};
+        
+    \addplot[thick, domain=0:1]{x};
+    
+    \addplot[name path=A, thick, domain=0:1, samples=100]{(1-(1-x)^(21+1))};
+    \addplot[name path=B, thick, domain=0:1, samples=100]{1};
+    \addplot[black] fill between[of=A and B];
+    
+%     \addplot[blue, dashed] table
+%     [
+% 		x expr = \thisrow{lam_a}/0.2,
+%     	y expr = \thisrow{p_r}
+%     ] {./Data/p_th_old.dat};
+%     \addplot[green!70!black, dashed] table
+%     [
+% 		x expr = \thisrow{lam_a}/0.2,
+%     	y expr = \thisrow{p_a}
+%     ] {./Data/p_th_old.dat};
+    
+    \fill[color=red!10] (axis cs: 0,0) -- (axis cs: 1,1) -- (axis cs: 1,0);
+    
+    \draw (axis cs: 0.40,0.58) node[anchor= west, rotate =45] {\large $m=1$};
+    \draw (axis cs: 0.35,0.65) node[anchor= west, rotate=45] {\large $m=2$};
+    \draw (axis cs: 0.30,0.72) node[anchor= west, rotate=45] {\large $m=3$};
+    \draw (axis cs: 0.34,0.81) node[anchor= west, rotate=135] {$\cdots$};
+    
+    \draw (axis cs: 0.45,0.25) node[anchor= west]
+        {\large
+        \begin{tabular}{c}
+            $\mathscr{T}$ and $p_p$ \\
+            are not\\
+            achievable
+        \end{tabular}
+        };
+    
+    % \node[text width=15mm,anchor=north east] at (1.04,1.07)
+    %     {\tiny
+    %     \begin{align*}
+    %         a   &=0.40\\
+    %             &=0.30\\
+    %             &=0.20\\
+    %             &=0.10\\
+    %             &=0.05
+    %     \end{align*}
+    %     };
+\end{axis}
+
+\end{tikzpicture}

@@ -1,0 +1,116 @@
+
+\begin{tikzpicture}[scale=0.85]
+
+\begin{axis}
+[
+  title={},
+%   width=12cm, height=9cm,
+  width = 0.65\columnwidth,
+  legend style={at={(0.95,0.95)}, anchor=north east},
+  xlabel={$a$},
+  ylabel={mean PAoI [units of time]}, ylabel style={rotate=0},
+%  yticklabel=\pgfmathprintnumber{\tick}\\ \%,
+  xmin = 0,
+  xmax = 1,
+  ymin = 0,
+  ymax = 8,
+%   y tick label style={
+%         /pgf/number format/.cd,
+%         fixed,
+%         fixed zerofill,
+%         precision=3,
+%         /tikz/.cd
+%   },
+  grid = both,
+  scale only axis,
+]
+	\legend{}
+    
+    \addplot[name path=A, dashed] table
+	[
+		x expr = \thisrow{a},
+    	y expr = \thisrow{PAoIinf}
+    ] {./Data/PAoI_a_2_part1.dat};
+    
+    \addplot[name path=B, thick] table
+	[
+		x expr = \thisrow{a},
+    	y expr = \thisrow{PAoIsup}
+    ] {./Data/PAoI_a_2_part1.dat};
+    
+    \addplot[green!10] fill between[of=A and B];
+    
+    
+    \addplot[name path=A, thick] table
+	[
+		x expr = \thisrow{a},
+    	y expr = \thisrow{PAoIinf}
+    ] {./Data/PAoI_a_2_part2.dat};
+
+    \addplot[name path=B, thick] table
+	[
+		x expr = \thisrow{a},
+    	y expr = \thisrow{PAoIsup}
+    ] {./Data/PAoI_a_2_part2.dat};
+    
+    \addplot[green!10] fill between[of=A and B];
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    \addplot[name path=A, dashed] table
+	[
+		x expr = \thisrow{a},
+    	y expr = \thisrow{PAoIinf}
+    ] {./Data/PAoI_a_1_part1.dat};
+    
+    \addplot[name path=B, thick] table
+	[
+		x expr = \thisrow{a},
+    	y expr = \thisrow{PAoIsup}
+    ] {./Data/PAoI_a_1_part1.dat};
+    
+    \addplot[blue!10] fill between[of=A and B];
+    
+    \addplot[name path=A, thick] table
+	[
+		x expr = \thisrow{a},
+    	y expr = \thisrow{PAoIinf}
+    ] {./Data/PAoI_a_1_part2.dat};
+
+    \addplot[name path=B, thick] table
+	[
+		x expr = \thisrow{a},
+    	y expr = \thisrow{PAoIsup}
+    ] {./Data/PAoI_a_1_part2.dat};
+    
+    \addplot[blue!10] fill between[of=A and B];
+
+    
+    \foreach \m in {2,...,10}
+        \addplot[] table
+    	[
+    		x expr = \thisrow{a},
+        	y expr = \thisrow{m\m}
+        ] {./Data/PAoI_1_m234.dat};
+    \foreach \m in {2,...,10}
+        \addplot[] table
+    	[
+    		x expr = \thisrow{a},
+        	y expr = \thisrow{m\m}
+        ] {./Data/PAoI_2_m234.dat};
+
+
+    \draw[-\arrowhead] (axis cs: 0.70, 1.80) -- (axis cs: 0.55, 3.80);
+    \draw (axis cs: 0.55, 3.70) node[anchor= west] {\footnotesize ~$m = 1,2,\dots,\infty$};
+    
+    \draw[-\arrowhead] (axis cs: 0.40, 4.30) -- (axis cs: 0.25, 7.00);
+    \draw (axis cs: 0.25, 7.00) node[anchor= west] {\footnotesize ~$m = 1,2,\dots,\infty$};
+
+    % \draw (axis cs: 0.45,2.00) node[rotate=-20] {\footnotesize$\alpha\lambda_s=1$};
+    % \draw (axis cs: 0.20,4.30) node[rotate=-40] {\footnotesize$\alpha\lambda_s=2$};
+    \draw (axis cs: 0.43,1.95) node[rotate=-20] {\footnotesize$\alpha\lambda=1$};
+    \draw (axis cs: 0.22,4.10) node[rotate=-30] {\footnotesize$\alpha\lambda=2$};
+
+\end{axis}
+
+\end{tikzpicture}

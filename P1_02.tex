@@ -1,0 +1,758 @@
+\chapterquote{%
+Mathematics is the art of giving the same name\\[0.4ex] to different things.}%
+{-- Henri Poincar\'e, \textit{Science et méthode} (1908)}
+
+% \chapterquote{%
+% Every definition implies an axiom, since it asserts the existence of the object defined. The definition then will not be justified, from the purely logical point of view, until we have proved that it involves no contradiction either in its terms or with the truths previously admitted.}%
+% {Henri Poincar\'e, \textit{Science et méthode (1908)}}
+
+In this chapter, we present some notations, mathematical concepts, definitions, and results that are fundamental to the development of the thesis.
+%
+For further details and proofs, please refer to the classic book:
+%
+\begin{itemize}
+    % \item \cite{rudin1976principles} and \cite{rudin1987real} for Calculus, Real Analysis and Complex Analysis.
+    \item \textit{Probability and Measure} \cite{billingsley1986probability}.
+\end{itemize}
+
+We opted to include this chapter for self-containment purposes regarding definitions and theorems frequently used in the manuscript.
+%
+Further, we comment on the reasons behind some of them, and on problems the lack of such formalism could entail on the applications.
+
+This chapter can also be used as a succinct preparation to read the well-celebrated book \textit{Stochastic Geometry and Wireless Networks} \cite{baccelli2010stochastic} which requires some knowledge on measure theory and it is one of the books we used as a basis to write Chapter~\ref{cap:P1_03}.
+
+\begin{note}
+    The reader that is not interested in mathematical details can skip to Chapter~\ref{cap:P1_03} and consult this chapter as needed.
+\end{note}
+
+\newpage
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % 
+\section{Notations and Definitions}
+
+% % % % % % % % % % % % % % % % % % 
+\subsection{Asymptotic notation}
+
+The asymptotic notation, also known as Bachmann--Landau notation or big O notation, is very useful to express complicated terms of a mathematical expression that are dominated by other terms and are not relevant to the analysis.
+%
+The definition follows.
+
+\begin{definition}[\textbf{Landau notation}] \label{def:landau}
+    Let $f$ and $g$ be functions from $\R$ into $\R$ and $a\in\R\cup\{\infty,-\infty\}$.
+    %
+    We write that $f(x) = \cal{O}(g(x))$ as $x$ tends to $a$ if and only if
+    \begin{align*}
+        \limsup_{x\to a} \left| \frac{f(x)}{g(x)} \right| < \infty.
+    \end{align*}
+    
+    % Further, we write $f(x) = o(g(x))$ as $x$ tends to $a$ if and only if
+    % \begin{align*}
+    %     \lim_{x\to a} \left| \frac{f(x)}{g(x)} \right| = 0 .
+    % \end{align*}
+\end{definition}
+
+This notation is somewhat misleading because despite the use of the equality symbol, it does not possess the reflexive nor the transitive property, e.g.,
+%
+if $f(x)=\cal{O}(1/x)$ and $g(x)=\cal{O}(1/x)$ as $x\to\infty$, we cannot say that $f(x) = g(x)$.
+%
+Also, we know that $\cal{O}(x^3) = \cal{O}(x^2)$ as $x\to0$, however we cannot say that $\cal{O}(x^2) = \cal{O}(x^3)$ as $x\to0$.
+%
+A set notation would be more consistent in this sense. For example, $\cal{O}(x^3) \subset \cal{O}(x^2)$ as $x\to0$ would mean that the class of functions bounded by $x^2$ is a subset of the class of functions bounded by $x^3$ as $x$ tends to $0$.
+%
+However, we shall stick with the usual notation to avoid confusion and for convenience.
+
+\begin{example} Using Landau notation, the Taylor expansion of $\tan(\cdot)$ around $0$ is
+    \begin{align*} 
+        \tan(x) = x + \frac{x^3}{3} + \frac{2x^5}{15} + \cal{O}(x^7)\qquad \text{as $x$ tends to $0$}.
+    \end{align*}
+\end{example}
+
+
+
+% % % % % % % % % % % % % % % % % % 
+\subsection{Closed form expression}
+What is considered a closed form expression varies from author to author and depends on context.
+%
+A thorough analysis of this topic can be found in \cite{borwein2013closed}, where the authors present several definitions of closed form expressions and their importance for science.
+%
+All in all, to be clear what we mean by closed form expression in this manuscript, we provide the definition below.
+\begin{definition}[\textbf{Closed form}] \label{def:closed_form}
+    A mathematical expression is in \textit{closed form} if and only if it can be expressed as a finite combination of constants, field operations\footnote{Addition, subtraction, multiplication, and division.}, and linear, exponential, and logarithmic functions.
+    
+    When we say \textit{closed form} in terms of $\cdot$\,, we include $\cdot$ in the list of allowed functions.
+\end{definition}
+
+Note that the above definition includes trigonometric and inverse trigonometric functions. For example, let $x\in\R$ or $x\in\C$,
+\begin{align*}
+    \sin(x) = \frac{\euler^{\iu x}-\euler^{-\iu x}}{2\iu}, \qquad \arctan(x) = \frac{1}{2\iu} \ln\!\left(\frac{\iu-x}{\iu+x}\right).
+\end{align*}
+
+Further, this definition agrees with the well-known Abel–Ruffini theorem, which states that there is no \textit{closed form} solution for general polynomial equations of degree five or higher.
+%
+Indeed, this is not true anymore if we consider, for example, \textit{closed form} expressions in terms of hypergeometric functions \cite{chow1999closed}.
+
+\subsection{Discrete}
+
+We all know what ``discrete'' means. However, a formal definition is not immediate. If we say that a set is discrete if it is \textit{countable}\footnote{A set is \textit{countable} if there exists an injective function from the set to the natural numbers $\N$.}, then $\Q$ is a discrete set. However, we do not want to include $\Q$ in this category, because this set is dense in $\R$, i.e., the set of limit points of $\Q$ results in $\R$.
+% %
+Thus, a more refined definition is necessary. Assuming a metric space (Definition~\ref{def:metric_space}) we can define a discrete set as follows.
+
+\begin{definition} \label{def:discrete}
+    A set $A$ is discrete if every point in $A$ is an isolated point\footnote{A point is isolated if there exists a neighborhood (Definition~\ref{def:neighborhood}) that only contains the point.}.
+\end{definition}
+
+This definition is enough for our purposes. However, some questions arise.
+%
+The set $$A = \left\{\frac{1}{n} : n\in\N^*\right\} = \left\{1,\frac{1}{2},\frac{1}{3},\frac{1}{4},\dots\right\}$$ is discrete because for any given point of this set we can take a sufficiently small open interval (neighborhood) such that it contains only the given point.
+%
+On the other hand, take the set $$B = A \cup \{0\} = \left\{0,1,\frac{1}{2},\frac{1}{3},\frac{1}{4},\dots\right\}.$$
+%
+Note that we cannot take an open interval around $0$ such that it only contains $0$. Thus, this set is not discrete according to our definition.
+
+This is strange, since $A$ is discrete and very similar to $B$.
+%
+Perhaps we should include in the definition that a set is discrete if every point in the set is isolated, except for a finite number of points in the set. Then, $A$ and $B$ would be discrete.
+
+All in all, this discussion is out of the scope of this thesis.
+%
+Nevertheless, we noticed an apparent lack of this fundamental definition in the literature related to this thesis. Although not serious it is disquieting. Indeed, we ``borrowed'' Definition~\ref{def:discrete} from topology.
+
+\subsection{Probability distributions}
+
+In Table~\ref{tab:distributions}, we present the probability distributions most used throughout the thesis.
+%
+\def\arraystretch{1.8}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{c|c|c|c|c}
+    \hline
+        Distribution  & symbol & density $f_X$ & support $X(\Omega)$ & parameters\\ \hline\hline
+        Bernoulli & $\mathscr{B}(p)$ & {\footnotesize$p\,k+(1-p)(1-k)$}  & $k\in\{0,1\}$ & $p\in[0,1]$\\
+        Binomial & $\mathscr{B}_n(p)$ & \footnotesize$\displaystyle\binom{n}{k} p^k(1-p)^{n-k}$ & $k\in\{0,1,\dots,n\}$ & $n\in\N^*, p\in[0,1]$\\
+        Geometrical & $\mathscr{G}(p)$ & \footnotesize$(1-p)^k\,p$ & $k\in\N$ & $p\in[0,1]$\\
+        Exponential & $\mathscr{E}(\lambda)$ & \footnotesize$\lambda \,\euler^{-\lambda x}$ & $x\in\R_+$ & $\lambda\in\R_+^*$\\
+        Erlang & $\mathscr{E}_n(\lambda)$ & \footnotesize$\displaystyle\frac{\lambda^n x^{n-1}}{(n-1)!} \,\euler^{-\lambda x}$ & $x\in\R_+$ & $n\in\N^*,\lambda\in\R_+^*$\\
+        Poisson & $\mathscr{P}(\lambda)$ & \footnotesize$\displaystyle\frac{\lambda^k}{k!} \,\euler^{-\lambda}$ & $k \in \N$ & $\lambda\in\R_+^*$\\
+    \hline
+    \end{tabular}
+    \caption{Considering the probability space $(\Omega,\cal F, \P)$ and a random variable $X$.}
+    \label{tab:distributions}
+\end{table} \vspace{-3mm}
+\def\arraystretch{1}
+%
+Then, if a random variable $X$ follows an exponential distribution of parameter $\beta>0$, we denote simply as $X\sim\mathscr{E}(\beta)$.
+%
+Note that $\mathscr{B}_1$ is equivalent to $\mathscr{B}$ and $\mathscr{E}_1$ to $\mathscr{E}$.
+%
+This is related to the fact that the sum of $n$ iid\footnote{A sequence of random variables is iid if the random variables are independent and identically distributed.} Bernoulli (Exponential) distributed random variables follow a Binomial (Erlang) distribution of parameter $n$.
+
+\begin{note}[\textbf{Poisson process}]
+    An interesting fact related to the distributions of Table~\ref{tab:distributions} is that the Poisson process, that models a collection of points randomly positioned in the real line $\R$, somehow contains all these distributions.
+    
+    First, the Poisson distribution. We define the Poisson process of density $\lambda>0$ through a collection of random variables $\{N([a,b])\}_{a<b}$, where $N([a,b])\sim\mathscr{P}(\lambda(b-a))$ gives the number of points for every interval $[a,b] \subset \R$.
+    %
+    For the Exponential distribution, the length of the interval between two consecutive points of the Poisson process follows $\mathscr{E}(\lambda)$.
+    %
+    Then, the Erlang distribution follows immediately by taking the length of the interval between the first and the last of $n+1$ consecutive points. This length follows $\mathscr{E}_n(\lambda)$.
+    %
+    For the Binomial distribution, let $a<b<c$, i.e., $[a,b]\subset[a,c]$. Then, $N([a,b])\mid \{N([a,c])=n\} \sim \mathscr{B}_n((b-a)/(c-a)).$
+    The Bernoulli distribution follows immediately by taking $n=1$.
+    %
+    Finally, the Geometrical distribution appears as
+    $\min\{k\in\N : N([k,k+1)) > 0\} \sim \mathscr{G}(1-\euler^{-\lambda}).$
+\end{note}
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % 
+\section{Sets and Measurability}
+
+%  \subsection{The \texorpdfstring{$\sigma$}{σ}-algebra}
+
+While the intricacies of measure theory are out of the scope of this work, we still need to clarify what ``measurable'' means.
+%
+For that, we need to introduce some definitions. The following one imposes a constraint on the subsets we can choose from a given set.
+
+% A set is \textit{countable} if there exists an injective function from the set to the natural numbers $\N$.
+
+\begin{definition}[\textbf{$\sigma$-algebra}]
+    Let $A$ be a set.
+    %
+    A $\sigma$-algebra $\cal{A}$ over set $A$ is an algebra of sets which is closed under \textit{countable}\footnote{%A set is \textit{countable} if there exists an injective function from this set to the natural numbers. 
+    Here \textit{countable} unions means the index set is \textit{countable}.} unions, i.e., $\cal{A}$ satisfies the following properties.
+    %
+    \setlist{nolistsep}
+    \begin{enumerate}[label=(\alph*), noitemsep]
+        \item $\varnothing\in\cal A$.
+        \item If $E\in\cal A$, then $E^c\triangleq\{a\in A\mid a\notin E\}\in\cal A$.
+        \item If $E_i\in\cal A$ for every $i\in\N$, then $\displaystyle\bigcup_{i\in\N} E_i\in\cal A$.
+    \end{enumerate}
+    %
+    The pair $(A,\cal{A})$ is called a \textit{measurable space}.
+\end{definition}
+
+In general terms, a $\sigma$-algebra consists of a collection of desirable subsets of $A$, e.g. in probability theory all the events of a sample space $\Omega$ must form a $\sigma$-algebra.
+%
+Note that we only require a \textit{countable} union of subsets to belong to the $\sigma$-algebra. An \textit{uncountable} union would allow problematic sets, e.g. the Vitali set \cite{vitali1905sul}, which is a subset of $\R$ that we cannot define a useful form to ``measure'' its length. A \textit{measure} is defined as follows.
+
+\begin{definition}[\textbf{Measure}]
+    Let $(A,\cal{A})$ be a \textit{measurable space}.
+    %
+    Let $\mu: \cal{A}\longrightarrow \R \cup \{\infty\}$. Then $\mu$ is called a \textit{measure} on $\cal{A}$ if and only if $\mu$ has the property of countable additivity
+    \begin{align*}
+        \mu\!\left(\bigcup_{n\in\N} E_n \right) = \sum_{n\in\N} \mu(E_n)
+    \end{align*}
+    for all pairwise disjoint $E_n \in\cal{A}$, and satisfies $\mu(\varnothing) = 0$ and $\mu(E) \ge 0$ for all $E \in \cal{A}$.\\
+    %
+    The triple $(A,\cal{A},\mu)$ is called a \textit{measure space}, or \textit{probability space} when $\mu(A)=1$.
+\end{definition}
+
+Three fundamental measures used in this work are the Lebesgue measure, the counting measure, and the probability measure.
+%
+The Lebesgue measure consists of the standard way to measure subsets of the $\R^d$ and coincides with length for $\R$, area for $\R^2$, and volume for $\R^3$.
+%
+The counting measure is the ``natural'' measure of \textit{countable} sets; it gives the number of elements of a subset of a set and coincides with its cardinality if the subset is finite.
+%
+The probability measure is the measure associated with the \textit{measure space} $(\Omega,\cal{F},\P)$, which we call the \textit{probability space} and serves to model a random process or ``experiment''. The set $\Omega$ is the sample space and contains all possible outcomes, the $\sigma$-algebra $\cal{F}$ is the event space and contains the measurable subsets of $\Omega$, and we require that the measure of the entire sample space is equal to one, i.e., $\P(\Omega) = 1$.
+
+Another problematic implication of not using \textit{measurable} sets is known as the Banach-Tarski paradox \cite{banach1924decomposition}, which maps a finite decomposition of a solid ball of the $\R^3$ into two identical disjoint balls using only translations and rotations.
+
+Thus, from now on, we shall only use \textit{measurable} sets to avoid running into problems such as an event having a probability equal to $2$.
+%
+The standard choice for a ``well-behaved'' $\sigma$-algebra is the Borel $\sigma$-algebra over a set $A$ and it is denoted as $\cal{B}(A)$, which is the smallest $\sigma$-algebra that contains all open subsets of $A$.
+%
+This is enough for our applications, thus whenever the $\sigma$-algebra is not specified, we are using the Borel $\sigma$-algebra.
+
+It is worth noting that, in a \textit{probability space} $(\Omega,\cal{F},\P)$ where the set $\Omega$ is \textit{countable}, we can choose all the partitions of $\Omega$ as the $\sigma$-algebra.
+%
+Problems with \textit{non-measurable} subsets arise when $\Omega$ is not \textit{countable}, e.g. $\Omega = \R$, for which we must carefully choose the $\sigma$-algebra.
+
+Another care we must take emerges when mapping a set into another. The idea is to guarantee that the preimage of any measurable set is measurable.
+%
+The functions that satisfy this property are called \textit{measurable functions} and this is essential to integrate a function or to measure the probability of a random variable assuming values in a given set.
+%
+The definition follows.
+
+\begin{definition}[\textbf{Measurable function}]
+    Let $(A,\cal{A})$ and $(A',\cal{A}')$ be \textit{measurable spaces}.
+    %
+    Then a function ${f: A\longrightarrow A'}$ is said to be \textit{measurable} if and only if for all $E \in \cal{A}'$
+    \begin{align*} 
+        f^{-1}(E) \triangleq \{ x\in A \mid f(x)\in E \} \in \cal{A}.
+    \end{align*}
+\end{definition}
+%
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % 
+\section{Integration with Respect to a Measure}
+
+The purpose of this section is to present some definitions and results from the theory of integration with respect to a \textit{measure}.
+%
+Let us start with the definition of the integral operator.
+
+\begin{definition}
+    Let $(A,\cal A, \mu)$ be a \textit{measure space} and $f:A\longrightarrow \overline\R$ be a non-negative \textit{measurable} function.
+    %
+    We define the integral of $f$ on $A$ with respect to the measure $\mu$ as
+    \begin{align*}
+        \int f \, \d \mu \triangleq \sup_{\substack{\{A_i\}_i^n \in \cal A,\\ n \in \N}} \left\{ \sum_i^n \left( \inf_{x\in A_i} f(x) \right) \mu(A_i) ~\middle\vert~ \bigcup_i^n A_i = A\right\}
+    \end{align*}
+    with the convention $0\cdot\infty = 0$.
+\end{definition}
+
+Note that the above definition is only for non-negative functions. However, this is easily extended for general $f$ by separating the function into positive and negative parts, integrating separately and, then, subtracting the results.
+%
+It is important to note that $\infty - \infty$ is undefined.
+
+Other notations we shall use for the integral of $f$ is
+\begin{align*}
+    \int f \, \d \mu = \int f(x) \, \d\mu(x) = \int f(x) \, \mu(\d x).
+\end{align*}
+
+We say a function $f$ is integrable if and only if
+\begin{align*}
+    \int |f| \,\d\mu < \infty.
+\end{align*}
+
+In case $\mu$ is the Lebesgue measure on $\R^d$, we use the classical notation
+\begin{align*}
+    \int f \,\d\mu = \int_{\R^d} f(x)\,\d x.
+\end{align*}
+
+Now we present some fundamental theorems that give sufficient conditions to interchange the limit operator with the integral operator.
+%
+These theorems are one of the main motivations to use the Lebesgue integral (in case $\mu$ is the Lebesgue measure) over the Riemann integral.
+%
+Nevertheless, note that the following theorems are valid for general measures.
+
+\begin{theorem}[\textbf{Monotone convergence theorem}]
+    Let $(A,\cal A, \mu)$ be a \textit{measure space}. For every non-decreasing sequence\footnote{A non-decreasing sequence of functions means that $f_{n+1}(x)\ge f_n(x)$ for all $x$.} $\{f_n\}_{n\in\N}$ of $\overline\R_+$-valued \textit{measurable} functions we have
+    \begin{align*}
+        \lim_{n\to\infty} \int f_n \,\d\mu = \int \lim_{n\to\infty} f_n \,\d\mu.
+    \end{align*}
+\end{theorem}
+
+\begin{theorem}[\textbf{Fatou's lemma}]
+    Let $(A,\cal A, \mu)$ be a \textit{measure space}. For every sequence $\{f_n\}_{n\in\N}$ of $\overline\R_+$-valued \textit{measurable} functions we have
+    \begin{align*}
+        \liminf_{n\to\infty} \int f_n \,\d\mu = \int \liminf_{n\to\infty} f_n \,\d\mu.
+    \end{align*}
+\end{theorem}
+
+\begin{theorem}[\textbf{Lebesgue's dominated convergence theorem}]
+    Let $(A,\cal A, \mu)$ be a \textit{measure space}. Let $\{f_n\}_{n\in\N}$ be a sequence of $\overline{\R}$-valued measurable functions such that $f_n \to f$ \textit{almost everywhere}\footnote{A property holds \textit{almost everywhere} if it is true for all points except for a subset of measure $0$.} as $n\to\infty$.
+    %
+    If there exists an integrable function $g$ such that $|f_n|\le g$ \textit{almost everywhere} and for every $n\in\N$, then
+    \begin{align*}
+        \lim_{n\to\infty} \int f_n \,\d\mu = \int f \,\d\mu.
+    \end{align*}
+\end{theorem}
+
+\begin{theorem}[\textbf{Leibniz integral rule}] \label{th:leibniz}
+    Let $(A,\cal A, \mu)$ be a \textit{measure space} and $(T, \cal T)$ a \textit{measurable space}.
+    %
+    Let $f:A\times T \longrightarrow \R$ be a measurable function that has a derivative $f'$ in the open set $T\subset\R$.
+    %
+    If there exists an integrable function $g$ such that $|f'(x,t)|\le g(x)$ for \textit{almost} every $x\in A$ and for every $t\in T$, then
+    \begin{align*}
+        \frac{\d}{\d t} \int f(x,t)\,\d\mu(x) = \int \frac{\d}{\d t} f(x,t) \,\d\mu(x), \qquad t \in T.
+    \end{align*}
+\end{theorem}
+
+All the above theorems hold even if we integrate in a subset $B\in\cal A$ of $A$. That is easy to see with the function $\ind_B \cdot f$.
+%
+Indeed, we define the integral of $f$ over set $B$ as
+\begin{align*}
+    \int_B f\,\d\mu \triangleq \int \ind_B(x) f(x) \,\d\mu(x).
+\end{align*}
+
+Furthermore, these results are also valid for infinite series, because we can take the \textit{measure space} $(\Z,\cal B(\Z), \mu)$ with $\mu$ being the counting measure. In such case we have
+\begin{align*}
+    \int f\,\d\mu = \sum_{x\in\Z} f(x).
+\end{align*}
+
+The following theorem guarantees the change of variable method in integration.
+
+\begin{theorem}[\textbf{Change of variable}]
+    Let $(A,\cal A, \mu)$ and $(A', \cal A', \nu)$ be \textit{measure spaces}.
+    %
+    Let the mapping $\varphi:A\longrightarrow A'$ be a \textit{measurable} function and $\nu = \mu\varphi^{-1}$, which is a measure that satisfies \vspace{-5mm}
+    \begin{align*}
+        \mu\varphi^{-1}(B') = \mu(\varphi^{-1}(B')) \quad \forall B'\in\cal{A}'.
+    \end{align*}
+    
+    A \textit{measurable} function $f:A'\longrightarrow\R$ is integrable with respect to $\mu\varphi^{-1}$ if and only if $f\circ\varphi$ is integrable with respect to $\mu$, in which case
+    \begin{align*}
+        \int_{\varphi^{-1}(B')} f(\varphi(x))\,\d\mu(x) = \int_{B'} f(x') \,\d\mu\varphi^{-1}(x'), \qquad B'\in\cal{A}'.
+    \end{align*}
+\end{theorem}
+
+For the Lebesgue measure, we have a more explicit method as described below.
+\begin{theorem}[\textbf{Change of variable on $\R^d$}]
+    Let $\varphi$ be a continuously differentiable %\footnote{Continuously differentiable means the derivative exists and is continuous.}
+    injective map from the open set $U\subset\R^d$ onto $V\subset\R^d$.
+    %
+    If $f$ is a nonnegative measurable function, then \vspace{-5mm}
+    \begin{align*}
+        \int_{U} f(\varphi(x))\,|\det J(x)| \,\d x = \int_{V} f(y)\,\d y,
+    \end{align*}
+    where $\det J$ is the determinant of the Jacobian matrix of $\varphi$.
+\end{theorem}
+
+Now we state one of the most important theorems about switching the order of integration.
+\begin{theorem}[\textbf{Fubini--Tonelli theorem}] \label{th:fubini-tonelli}
+    Let $(X,\cal X, \mu)$ and $(Y,\cal Y, \nu)$ be $\sigma$-finite\footnote{$(X,\cal X, \mu)$ is $\sigma$-finite if $X$ is a countable union of measurable subsets of finite measure.} \textit{measure spaces}. Let $f:X\times Y\longrightarrow \R$ be a measurable function. Then,
+    \begin{align*}
+        \int_{X\times Y}\hspace{-4mm} |f(x,y)| \,\d\pi(x,y) = \int_X\left(\int_Y |f(x,y)| \,\d\nu(y)\right)\!\d \mu(x)  = \int_Y\left(\int_X |f(x,y)| \,\d\mu(x)\right)\!\d \nu(y),
+    \end{align*}
+    where $\pi:\cal X\times \cal Y\longrightarrow \overline{\R}_+$ is the only measure that satisfies $\pi(A\times B) = \mu(A)\nu(B)$ for all $A\in\cal X$ and $B\in\cal Y$. Furthermore, if any of the above integrals is finite, then
+    \begin{align*}
+        \int_{X\times Y}\hspace{-4mm} f(x,y) \,\d\pi(x,y) = \int_X\left(\int_Y f(x,y) \,\d\nu(y)\right)\!\d \mu(x)  = \int_Y\left(\int_X f(x,y) \,\d\mu(x)\right)\!\d \nu(y).
+    \end{align*}
+\end{theorem}
+
+Note that $\cal X\times \cal Y$ is not the usual Cartesian product, which does not result in a $\sigma$-algebra, because it would only consist of an algebra of rectangles, and we need more elaborate sets.
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % 
+\section{Probability and Measure}
+
+Now that we have some definitions and results from measure theory and integration theory at hand, we can readily and formally state some important definitions and results from probability theory.
+%
+This is due to the fact that the Kolmogorov axioms of probability coincide with those of measure theory.
+%
+Let us start with the definition of random variable.
+\begin{definition}[\textbf{Random variable}]
+    Let $(\Omega,\cal{F},\P)$ be a \textit{probability space} and $(A,\cal{A})$ be a \textit{measurable space}. Then, a random variable is a \textit{measurable function} $X:\Omega\longrightarrow A$.
+    
+    Further, if $A \subset \overline{\R}$, we say $X$ is a numerical random variable.
+\end{definition}
+
+From this definition, we have that, for all $B\in\cal{A}$
+\begin{align*}
+    X^{-1}(B) = \{\omega\in\Omega \mid X(\omega)\in B\} \in \cal{F},
+\end{align*}
+which means that $X^{-1}(B)$ is measurable and $\P(X\in B) \triangleq \P(X^{-1}(B)) \in [0,1]$ exists.
+
+An important calculation related to a numerical random variable is its expected value.
+%
+It represents the average value assumed by the random variable considering the entire sample space.
+%
+The definition follows.
+%
+\begin{definition}[\textbf{Expected value operator}]
+    Let $(\Omega,\cal{F},\P)$ be a \textit{probability space} and $X$ be a numerical random variable. Then, we define the expected value of $X$ as
+    \begin{align*}
+        \E[X] \triangleq \int_{\Omega} X(\omega)\,\d\P(\omega).
+    \end{align*}
+\end{definition}
+%
+Note that the above definition is valid for any kind of random variable, i.e., continuous, discrete, mixed, or even none of these three.
+
+A useful form of characterizing a random variable is through its distribution function.
+%
+Then, instead of having an abstract measure $\P$, we have a function $F:\Omega\longrightarrow[0,1]$ that can be plotted.
+%
+The definition follows.
+%
+\begin{definition}[\textbf{Cumulative distribution function}]
+    Let $(\Omega,\cal{F},\P)$ be a \textit{probability space} and $X$ be a numerical random variable. Then, $F_X:\overline\R\longrightarrow [0,1]$ is the cumulative distribution function (or cdf) of $X$ and is defined as
+    \begin{align*}
+        F_X(x) \triangleq \P(X \le x) \triangleq \P(X \in [-\infty,x]).
+    \end{align*}
+    Furthermore, if \vspace{-5mm}
+    \begin{align*}
+        \lim_{x\to-\infty} F_X(x) = 0 \quad\text{and}\quad \lim_{x\to\infty} F_X(x) = 1,
+    \end{align*}
+    then $X$ is a \textit{proper} random variable. Otherwise, we say $X$ is an \textit{improper} random variable.
+\end{definition}
+
+An example of \textit{improper} random variable follows.
+%
+Let $T$ be a numerical random variable with associated cdf $F_T(t)$ representing the probability a random person marries before age $t > 0$. Then, we expect that $\displaystyle\lim_{t\to\infty}F_T(t) < 1$ because some people never marry.
+
+% \begin{example}
+%     We say that a random variable $X$ follows an exponential distribution of parameter $\lambda\in\R_+$ when % we have the associated \textit{probability space} $(\Omega,\cal{F},\P)$ and \textit{measurable space} $(\R_+,\cal{B}(\R_+))$ such that
+%     \vspace{-5mm}
+%     \begin{align*}
+%         X(\Omega) &= \R_+,\\
+%         F_X(x) &= 1 - \euler^{-\lambda x}.
+%     \end{align*}
+%     Then, we denote $X \sim \mathscr{E}(\lambda)$.
+% \end{example}
+
+\begin{definition}[\textbf{Probability density function}] \label{def:pdf}
+    Let $X$ be a numerical random variable defined on a \textit{probability space} $(\Omega, \cal F, \P)$. If there exists a non-negative \textit{measurable} function ${f:\R \longrightarrow [0,\infty)}$ such that the cumulative distribution function
+    \begin{align*}
+        F_X(x) = \int_{-\infty}^x f_X(t) \,\d t \quad \forall x \in \R,
+    \end{align*}
+    then we say the function $f$ is a probability density function (or pdf) for $X$.
+\end{definition}
+
+Different from the cumulative distribution function, the probability density function is not unique and does not always exist.
+%
+Take, for example, any discontinuous cumulative distribution function. Another more interesting example is the Cantor distribution, for which the associated cumulative distribution function is continuous, but it is not the integral of its derivative even though the derivative exists \textit{almost everywhere}\footnote{A property holds \textit{almost everywhere} if it holds in the entire space, except for a subset of measure $0$.} \cite{cantor1884puissance}.
+
+For general cumulative distribution functions, the following notation is convenient.
+
+\begin{definition}[\textbf{Lebesgue–-Stieltjes integral}] \label{def:lebesgue-stieltjes}
+    Let $F: \R \longrightarrow \R$ be a right-continuous non-decreasing function. Then, for a \textit{measurable} function $g:\R\longrightarrow \R$ we define \vspace{-5mm}
+    \begin{align*}
+        \int_A g(x)\,\d F(x) \triangleq \int_A g(x)\,\d\mu(x), \qquad A\in\mathcal{B}(\R),
+    \end{align*}
+    where $\mu$ is the unique measure that satisfies $F(b)-F(a) = \mu((a,b])$ for every $a<b$.
+\end{definition}
+
+If $F$ is continuously differentiable\footnote{Every differentiable function is continuous. However, a continuously differentiable function means that the derivative is also continuous.}, then we can write it as a Lebesgue integral
+\begin{align*}
+    \int_A g \,\d F = \int_A g(x) F'(x) \,\d x, \qquad A\in\mathcal{B}(\R).
+\end{align*}
+
+\begin{remark}
+    This notation is very useful in probability theory, because even if the probability density function does not exist, even if the cumulative distribution function is ill-behaved such as the Cantor function, once $\E[|g(X)|]$ is finite, then we can always write that \vspace{-5mm}
+    \begin{align*}
+        \E[g(X)] = \int_{X(\Omega)}\hspace{-5mm} g(x)\,\d F_X(x).
+    \end{align*}
+\end{remark}
+
+Definition~\ref{def:pdf} is specific for the Lebesgue measure on $\R$. To define probability density functions in general, we need the following fundamental theorem.
+%
+\begin{theorem}[\textbf{Radon--Nikodym theorem}]
+\label{th:radon-nikodym}
+    Let $(\Omega,\cal F)$ be a measurable space. If $\nu$ and $\mu$ are $\sigma$-finite\footnote{A measure is $\sigma$-finite if the space is a countable union of measurable subsets of finite measure.} measures on $(\Omega,\cal F)$ such that $\nu$ is absolutely continuous\footnote{A measure $\nu$ is absolutely continuous with respect to measure $\mu$ if $\mu(A)=0$ implies that $\nu(A) = 0$ for every measurable $A$.} with respect to $\mu$, then there exists a nonnegative measurable function $f$ such that
+    \begin{align*}
+        \nu(A) = \int_A f\,\d\mu\qquad \forall A\in\cal F.
+    \end{align*}
+    The function $f$ is called the Radon--Nikodym derivative of $\nu$ with respect to $\mu$ and it is denoted as $f = \frac{\d\nu}{\d\mu}$.
+\end{theorem}
+
+The Radon--Nikodym theorem basically states that if a measure ``sees'' any set  (non-null measure) another measure can ``see'', then we can recover the latter measure through the integral of a well-chosen function with respect to the former measure.
+
+Now, we can state the general definition of a probability density function.
+\begin{definition}[\textbf{Probability density function with respect to a measure}] \label{def:pdf_measure}
+    Let $(\Omega,\cal F,\P)$ be a \textit{probability space} and $X$ a random variable with values in the \textit{measurable space} $(A,\cal A)$.
+    %
+    If the measure $\P X^{-1}$ is absolutely continuous with respect to a reference measure $\mu$ on $(A,\cal A)$, then the probability density of $X$ with respect to $\mu$ is given by the Radon--Nikodym derivative
+    \begin{align*}
+        f = \frac{\d\P X^{-1}}{\d\mu}.
+    \end{align*}
+    Whenever $\mu$ is not specified, $\mu$ is the Lebesgue measure.
+\end{definition}
+
+Therefore, if $f$ is the density of the random variable $X$ with respect to measure $\mu$, then
+\begin{align*}
+    \P(X\in E) = \int_{X^{-1}(E)}\hspace{-6mm}\d\P = \int_{E} f\d\mu, \qquad E\in\cal A.
+\end{align*}
+
+\begin{note} \label{note:dirac_function}
+    Now is a good opportunity to talk about a common abuse of notation used for atomic\footnote{A measure $\mu$ is atomic when, for some set $A$, $\mu(A)>0$, there is no set $B$ such that $0<\mu(B)<\mu(A)$.} measures.
+    %
+    For example, when the cdf of a random variable $X$ is
+    \begin{align*}
+        F_X(x) = 
+        \begin{cases}
+            0, & \quad x < 0,\\
+            1 - \frac{1}{2}\euler^{-2x}, & \quad x\ge 0,
+        \end{cases}
+    \end{align*}
+    then it is common to write that the pdf is given by
+    \begin{align*}
+        f_X(x) = \frac{1}{2}\delta_0(x) + \euler^{-2x}, \quad x\ge 0.
+    \end{align*}
+    However, the probability density function does not exist with respect to the Lebesgue measure $\mu$ according to the Radon--Nikodym theorem (Theorem~\ref{th:radon-nikodym}), because we have an atom at $X=0$ as $\P(X=0)=1/2$, however $\mu(\{0\})=0$, thus, $\mu$ is not absolutely continuous with respect to the measure induced by $F_X$, which is the measure $\P X^{-1}$.
+    
+    This happens because it is not possible to define the Dirac delta ``function'' $\delta$ as a $\mu$-\textit{measurable} function, only as a measure\footnote{Let $A$ be a set, the Dirac measure is defined as $\delta_x(A) = 1$ if $x\in A$ and $\delta_x(A) = 0$ if $x\notin A$.} itself.
+    %
+    Then, the density would exist with respect to the measure $\mu+\delta_0$.
+    %
+    Thus, if one wishes to use density to characterize an atomic measure, the ideal is to use a density for the atoms and a density for the Lebesgue measure.
+    %
+    That is, in the example, let $a_0 = 1/2$ and $g(x) = \euler^{-2x}$. Then,
+    \begin{align*}
+        \P(X\in A) = a_0\delta_0(A) + \int_A g(x)\,\d\mu(x), \qquad A\in\cal{B}(\R_+).
+    \end{align*}
+\end{note}
+
+The classic definition of conditional probability follows.
+    \begin{definition}[\textbf{Conditional probability}] \label{def:cond_prob}
+    Let $(\Omega,\cal{F},\P)$ be a \textit{probability space}, and let $B\in\cal F$ be an event such that $\P(B)>0$. For every event $A\in \cal F$, the conditional probability that $A$ occurs given that $B$ occurs is defined as
+    \begin{align*}
+        \P(A\mid B) \triangleq \frac{\P(A \cap B)}{\P(B)}.
+    \end{align*}
+\end{definition}
+
+Note that the above definition requires that $\P(B)>0$, otherwise we have an indetermination.
+%
+For example, take a random variable that follows a uniform distribution on a sphere, the Borel--Kolmogorov paradox \cite{kolmogorov1956probability} asks the conditional distribution on a great circle of this sphere.
+%
+One would expect that the random variable is uniformly distributed on a great circle. However, depending on the choice of coordinates we obtain different distributions.
+
+Problems also arise when finding the conditional density of a random variable $X$ given the event $X=Y$, where $Y$ is another random variable. This is undefined if the probability measure $\P(X=Y) = 0$.
+%
+Take the following example, where the joint density of $X$ and $Y$ is
+\begin{align*}
+    f_{X,Y}(x,y) = 4xy, \quad x,y\in[0,1].
+\end{align*}
+In this case, standard calculations lead to
+\begin{align*}
+    f_{X\mid X-Y = 0}(x) &= 3x^2, \quad \quad 0\le x\le 1,\\
+    f_{X\mid X/Y = 1}(x) &= 4x^3, \quad \quad 0\le x\le 1.
+\end{align*}
+So which one should we choose for $f_{X\mid X=Y}$?
+%
+The events $X/Y = 1$ and $X - Y = 0$ should be the same. Then, how come the conditional densities are different?
+
+This happens because the implicit $\sigma$-algebras of each condition are different. In one case, we are using the $\sigma$-algebra induced by $X-Y$ and in the other, the $\sigma$-algebra induced by $X/Y$.
+%
+Another form of viewing this is that in one case we have, for arbitrarily small $\varepsilon > 0$, $|X-Y|<\varepsilon$ and in the other $|X/Y - 1| < \varepsilon$.
+%
+Thus, the notation $X\mid X=Y$ must be avoided when $\P(X=Y) = 0$.
+
+All in all, for convenience and analytical tractability we often need to condition on events of probability measure $0$. One way of not running into problems is to state the limit process that leads to such events.
+%
+Another form is using the following definition.
+
+\begin{definition}[\textbf{Conditional probability on a $\sigma$-algebra}] \label{def:cond_prob_sig}
+    Let $(\Omega,\cal{F},\P)$ be a \textit{probability space}. Let the sub $\sigma$-algebra $\cal G\subset\cal F$.
+    %
+    The conditional probability that $A$ occurs given the information on $\cal{G}$ is defined as the random variable $\P(A~||~\cal G)$ that satisfies
+    \begin{align*}
+        \int_{G} \P(A~||~\cal G)\,\d\P = \P(A \cap G), \qquad\text{for every }G\in\cal{G},
+    \end{align*}
+    which exists by the Radon-Nikodym theorem (Theorem~\ref{th:radon-nikodym}).
+\end{definition}
+
+Then, we define conditional probability on random variables as follows.
+%
+\begin{definition}[\textbf{Conditional probability on a random variable}] \label{def:cond_prob_rv}
+    Let $Y:\Omega\longrightarrow A$ be a random variable on the probability space $(\Omega,\cal{F},\P)$ and measurable space $(A,\cal{A})$.
+    %
+    Then, the probability of the event $A\in\cal{F}$ given $Y$ is defined as the random variable
+    \begin{align*}
+        \P(A \mid Y) \triangleq \P(A ~||~ \sigma(Y)),
+    \end{align*}
+    where $\sigma(Y) \triangleq \{Y^{-1}(B): B\in\cal{A}\}$ is the smallest $\sigma$-algebra for which $Y$ is measurable.
+\end{definition}
+
+Whenever we define the $\sigma$-algebra on which a conditional event takes place, we no longer have problems with conditioning on ``meaningful'' events of probability measure $0$.
+
+An extremely useful property we sometimes require for random variables is independence, because it generally entails mathematical tractability. The definition follows.
+%
+\begin{definition}[\textbf{Independence}]
+    Let $(\Omega,\cal{F},\P)$ be a \textit{probability space} and $(S,\cal{S})$ a \textit{measurable space}.%
+    \setlist{nolistsep}
+    \begin{enumerate}[label=(\alph*), noitemsep]
+        \item The events $A,B\in\cal F$ are \textit{independent} if and only if $\P(A\cap B) = \P(A)\P(B)$.
+        \item Let $I$ be an index set (possibly \textit{uncountable}), and let $\{E_i\in\cal{F}\}_{i\in I}$ be a collection of events. This collection of events are independent if for every finite subset $I_0$ of $I$,
+        \begin{align*}
+            \P\left( \bigcap_{i\in I_0} E_i\right) = \prod_{i\in I_0} \P(E_i).
+        \end{align*}
+        % \item Let $\cal F_1 \subset \cal F$ and $\cal F_2 \subset \cal F$ be two $\sigma$-algebras. $\cal F_1$ and $\cal F_2$ are independent if for every $E_1 \in \cal F_1$ and $E_2 \in \cal F_2$ we have that $E_1$ and $E_2$ are independent.
+        % \item Let $I$ be an index set (possibly \textit{uncountable}), and let $\{\cal F_i\subset\cal F\}_{i\in I}$ be a collection of $\sigma$-algebras. This collection of $\sigma$-algebras are independent if for every $E_i \in \cal F_i$, $i\in I$ the collection of events $\{E_i\}_{i\in I}$ are independent.
+        \item The random variables $X,Y : \Omega \longrightarrow S$ are independent if and only if the events $\{X \in S_1\}$ and $\{Y \in S_2\}$ are independent for every $S_1,S_2\in\cal{S}$.
+        \item Let $I$ be an index set (possibly \textit{uncountable}), and let $\{X_i\}_{i\in I}$ be a collection of random variables. This collection of random variables are independent if for every finite subset $I_0$ of $I$, we have that the events $\{X_i\in S_i\}_{i\in I_0}$ are independent for every $S_i\in\cal{S}$, $i\in I_0$.
+    \end{enumerate}
+\end{definition}
+
+We usually need to analyze related random variables indexed by some physical quantity, e.g., time or position.
+%
+In this sense, it is useful to define a stochastic process.
+%
+\begin{definition}[\textbf{Stochastic process}] \label{def:stoch_process}
+    A stochastic process on the \textit{probability space} $(\Omega,\cal F, \P)$, \textit{measurable} state space $(S,\cal S)$, and \textit{measurable} index space $(T,\cal{T})$ is a collection of random variables $\bm{X}\triangleq\{X_t\}_{t\in T}$ such that $X: \Omega \times T \longrightarrow S$ is a \textit{measurable} function.
+\end{definition}
+
+A useful definition to say, in a formal way, two stochastic processes behave almost identically is the following.
+%
+\begin{definition}[\textbf{Indistinguishable property}] \label{def:indistinguishable}
+    Let $\bm{X} = \{X_t\}_{t\in T}$ and $\bm{Y} = \{Y_t\}_{t\in T}$ be stochastic processes on the \textit{probability space} $(\Omega,\cal F, \P)$, state space $(S,\cal S)$ and index space $(T,\cal{T})$.
+    %
+    We say $\bm{X}$ is \textit{indistinguishable} from $\bm{Y}$ if and only if
+    \begin{align*}
+        \P(X_t = Y_t) = 1\quad \forall t\in T.
+    \end{align*}
+\end{definition}
+
+When a stochastic process does not change its statistical properties by a translation on the index space, then we say it is stationary. This property entails mathematical tractability, because we can analyze the ``stationary distribution'' of the stochastic process without taking into account the evolution of the process in the index space.
+%
+\begin{definition}[\textbf{Stationary process}] \label{def:stationary}
+    Let $\bm{X} = \{X_t\}_{t\in T}$ be a stochastic process on the \textit{probability space} $(\Omega,\cal F, \P)$, state space $(S,\cal S)$ and index space $(T,\cal{T})$.
+    %
+    We say $\bm{X}$ is (strict-sense) \textit{stationary} if and only if for every $n\in\N$ the random vector
+    $(X_{t_1}, X_{t_2}, \dots, X_{t_n})$ has the same distribution as the random vector
+    $(X_{t_1+\Delta t}, X_{t_2+\Delta t}, \dots, X_{t_n+\Delta t})$ for all $t_i\in T$ and $(\Delta t + t_i) \in T$, $i\in\{1,2,\dots,n\}$.
+\end{definition}
+
+Another property of stochastic processes that helps towards tractability is to be ergodic, which entails that the mean over the sample space is equal to the mean in the index space.
+%
+However, first we need to define an ergodic mapping.
+%
+\begin{definition}[\textbf{Ergodicity}] \label{def:ergodic}
+    Let $(\Omega,\cal F, \P)$ be a \textit{probability space}. If $\varphi:\Omega\longrightarrow\Omega$ is a \textit{measurable} function, then we say that $\varphi$ is ergodic if the following conditions hold
+    \setlist{nolistsep}
+    \begin{itemize}[noitemsep]
+        \item $\P(\varphi^{-1}A) = \P(A)$ for all $A\in\cal F$.
+        \item For any $A\in\cal F$ such that $\varphi^{-1}A\subset A$ we have that $\P(A) = 0$ or $\P(A) = 1$.
+    \end{itemize}
+\end{definition}
+
+The first condition guarantees that $\varphi$ preserves $\P$, i.e., the transformation does not change the probability of an event. The second condition means that except for trivial events, which are events with probability measure $1$ or $0$, there are no closed orbits, i.e., $\varphi$ cannot map to a nontrivial event only with elements of that event.
+
+\begin{theorem}[\textbf{Ergodic theorem}] \label{th:ergodic}
+    Let $(\Omega,\cal F, \P)$ be a \textit{probability space}. If $\varphi:\Omega\longrightarrow\Omega$ is ergodic and $f:\Omega\longrightarrow\R$ is \textit{measurable}, then
+    \begin{align*}
+        \lim_{n\to\infty} \frac{1}{n} \sum_{k=0}^{n-1} f(\varphi^{k}\omega) = \int f\,\d\P
+    \end{align*}
+    for \textit{almost every} $\omega\in\Omega$.
+\end{theorem}
+
+This theorem guarantees the well-known ergodic property that the time average is equal to the space average \textit{almost everywhere}.
+%
+However, the link with stochastic processes is still not clear. The following definition establishes the missing connection.
+
+\begin{definition}[\textbf{Ergodic process}] \label{def:ergodic_process}
+    Let $\bm{X} = \{X_t\}_{t\in T}$ be a stochastic process on the \textit{probability space} $(\Omega,\cal F, \P)$, state space $(S,\cal S)$ and index space $(T,\cal{T})$. We say that $\bm{X}$ is an ergodic process if there exists a \textit{countable} and dense\footnote{A subset $A\subset B$ is dense in set $B$ if every point $x\in B$ either belongs to $A$ or is a limit point of $A$.} subset $\{t_k\}_{k\in\Z}$ of $T$, for which we can find an ergodic function $\varphi:\Omega\longrightarrow\Omega$ such that $X_{t_k}(\varphi(\omega)) = X_{t_{k+1}}(\omega)$ for \textit{almost every} $\omega\in\Omega$.
+\end{definition}
+
+Finally, using the ergodic theorem (Theorem~\ref{th:ergodic}) along with the above definition, we can state that if the stochastic process $\bm{X}$ is ergodic and the function $f$ is \textit{measurable}, then
+\begin{align*}
+    \lim_{n\to\infty}\frac{1}{n}\sum_{k=0}^{n-1} f(X_k,X_{k+1},\dots) = \E[f(X_0,X_1,\dots)].
+\end{align*}
+%
+From the above equation, we see that all ergodic processes are stationary processes, because $f$ is arbitrary and we can fully characterize the distribution of the stochastic process.
+%
+In particular, if we take an $f$ that maps to the first argument, we have the well known ergodic property that the mean on the index space is equal to the mean in the sample space, that is
+\begin{align*}
+    \lim_{n\to\infty}\frac{1}{n}\sum_{k=0}^{n-1} X_k = \E[X_0].
+\end{align*}\vspace{-3mm}
+
+Now we are prepared to define a stochastic process that is extensively used in scientific models, the Markov process. The definition follows.
+%
+\begin{definition}[\textbf{Markov chain}] \label{def:markov_chain}
+    Let $S$ be a countable set and $T$ be an ordered set. The stochastic process $\bm{X}=\{X_t\}_{t\in T}$ with state space $(S,\cal S)$, index space $(T,\cal T)$, is a Markov chain if \vspace{-5mm}
+    \begin{align*}
+        \P(X_{t+s}\in A ~||~ \mathscr{F}_t) = \P(X_{t+s}\in A\mid X_t)
+    \end{align*}
+    for all $s,t\in T$ and $A\in\cal{S}$, where $\mathscr{F}_t \triangleq \sigma\{X_s : s\in T, s \le t\}$ is the $\sigma$-algebra generated by the process up to time $s\in T$. The set $\{\mathscr{F}_t\}_{t\in T}$ is called a \textit{filtration}.
+    
+    If $T$ is a discrete set, we say $\bm{X}$ is a discrete-time Markov chain.
+    %
+    If $T$ is continuous (i.e. a \textit{complete} metric space), we say $\bm{X}$ is a continuous-time Markov chain.
+\end{definition}
+
+In general terms, in a Markov chain the information given by the entire stochastic process until index (or time) $t$ is the same as having only the information at time $t$.
+
+\begin{definition} \label{def:transition-rate}
+    Let $\bm{X}$ be a stationary continuous-time Markov chain with state space $S$ and index space $T = [0,\infty)$.
+    %
+    The transition rate from $x\in S$ to $y\in S$ is defined as
+    \begin{align*}
+        x\to y ~:~ \lim_{t\to 0}\frac{\P(X_t=y \mid X_0 = x)}{t}.
+    \end{align*}
+\end{definition}
+
+Note that the stationarity in the above definition is important. Otherwise, the transition rates could vary with time (or index).
+
+\begin{theorem}
+    In a continuous-time Markov chain, the process will change state according to an exponentially distributed random variable.
+\end{theorem}
+
+The above property is always good to remember while proposing a model.
+%
+For example, if we need a fixed time for transmitting packets in the system model, then we cannot use continuous-time Markov chains.
+%
+On the other hand, a discrete-time Markov chain is capable of satisfying this requirement.
+
+Below there are some useful definitions for characterizing Markov chains.
+\begin{definition} \label{def:markov-defs}
+    Let $\bm{X}$ be a Markov chain on space state $S$ and index space $T$.
+
+    A stationary distribution $\{\pi_x \in [0,1]\}_{x\in S}$ for $\bm{X}$ satisfy the following equations
+    \begin{align*}
+        \P(X_{t+s} = x\mid X_t = y) \pi_y &= \pi_x, \qquad\text{for every }x,y\in S ~\text{and}~ s,t\in T,\\
+        \sum_{x\in S} \pi_x &= 1.
+    \end{align*}
+    Note that a stationary distribution does not always exist.
+    
+    We say $\bm{X}$ is \textit{irreducible} if, for every $x,y\in S$, there exist a $t \in (0,\infty)$ such that $$\P(X_t = x\mid X_0 = y) > 0.$$
+    
+    We say $\bm{X}$ is \textit{aperiodic} if, for a \textit{countable} index space mapped on $\N$, we have that the greatest common divisor of $\{n\in\N : \P(X_n = x\mid X_0 = x) > 0 \}$ is $1$ for every $x\in S$.
+    %
+    On the other hand, for a continuous index space, all Markov chains are aperiodic.
+    
+    We say $\bm{X}$ is positive recurrent if $\E[\min\{t > t_0 : X_t = x_0 \mid X_0 = x_0\}] < \infty$ for every $x_0\in S$, where $t_0 = \min\{t\ge 0 : X_t\neq x_0 \mid X_0 = x_0 \}$.
+    %
+    In words, the expected amount of time to return to any initial state after leaving the state is finite.
+\end{definition}
+
+Now we are able to state the following important theorem about the stochastic processes of Markov chains.
+
+\begin{theorem} \label{th:Markov_ergodic}
+    If a Markov chain is irreducible, aperiodic, and positive recurrent then it has a unique stationary distribution and it is ergodic.
+\end{theorem}
+
+Finally, with this theorem we conclude the review of probability and measure.
+%
+We are ready to begin the review of stochastic geometry and random measures.
